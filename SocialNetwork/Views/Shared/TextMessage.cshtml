@@ -1,0 +1,10 @@
+﻿@model TextMessage
+
+<div class="p-1">
+    <img class="rounded-circle float-left message-ava" src="@Model.Sender.Image" alt="@Model.Sender.UserName" />
+    <div class="p-1 mb-2 ml-1 bg-info text-white float-left">
+        @Model.Text
+    </div>
+</div>
+
+

@@ -1,0 +1,18 @@
+﻿@model MessagesAllMessagesViewModel
+<div class="p-2 w-100 bg-dark text-light">
+    Dialog
+</div>
+
+<div class="p-2 row justify-content-start">
+        @{
+            foreach (TextMessage mes in Model.messages)
+            {
+                @Html.Partial("TextMessage", mes)
+                <div class="w-100"></div>
+            }
+        }
+</div>
+
+<div class="p-2 float-down w-100 bg-dark text-light">
+    FieldForSend
+</div>

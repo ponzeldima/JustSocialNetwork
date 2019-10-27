@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("Structure/Head")
+</head>
+<body>
+    @Html.Partial("Structure/Navigator")
+    <partial name="_CookieConsentPartial" />
+
+    <div class="container body-content mt-2">
+        <div class="row mh-100">
+            @Html.Partial("Structure/LeftBar")
+            <hr />
+            <div class="col-md-9 bg-light main">
+                @RenderBody()
+            </div>
+            <hr />
+        </div>
+
+    </div>
+    @Html.Partial("Structure/Footer")
+
+
+    @Html.Partial("Structure/Scripts")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
