@@ -11,6 +11,7 @@ using SocialNetwork.Data.Models;
 
 namespace SocialNetwork.Controllers
 {
+    [Authorize]
     public class ConversationsController : Controller
     {
         private readonly IMessagesGetter _messagesGetter;
@@ -24,7 +25,6 @@ namespace SocialNetwork.Controllers
             _usersGetter = usersGetter;
         }
 
-        [Authorize]
         public ViewResult Dialogue()
         {
             ConversationsDialogueViewModel obj = new ConversationsDialogueViewModel();
@@ -33,14 +33,12 @@ namespace SocialNetwork.Controllers
             return View(obj);
         }
 
-        public IActionResult Index()
+        public ViewResult List()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return Content(User.Identity.Name);
-            }
-            return Content($"не аутентифицирован {User} - " +
-                $"{User.Identity.Name} - {User.Identity.IsAuthenticated}");
+            ConversationsListViewModel obj = new ConversationsListViewModel();
+            obj.user = _usersGetter.GetForUserName(User.Identity.Name);
+            obj.conversations = _conversationsGetter.GetFromUser(User.Identity.Name);
+            return View(obj);
         }
     }
 }

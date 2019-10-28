@@ -41,7 +41,7 @@ namespace SocialNetwork.Controllers
                     await Authenticate(user); // аутентификация
 
                     //return View(model);
-                    return RedirectToAction("Index", "Conversations");
+                    return RedirectToAction("UserInformation", "Home");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
@@ -77,7 +77,7 @@ namespace SocialNetwork.Controllers
 
                     await Authenticate(user); // аутентификация
 
-                    return RedirectToAction("Index", "Conversations");
+                    return RedirectToAction("UserInformation", "Home");
                 }
                 else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
