@@ -35,14 +35,16 @@ namespace SocialNetwork.Data.Repositories
 
         public IEnumerable<Conversation> GetFromUser(string name)
         {
-            return _appDBContent.Users
+            var users = _appDBContent.Users
+                .Include(u => u.Messages)
                 .Include(u => u.Conversations)
-                    .ThenInclude(uc => uc.Conversation)
-                    .ThenInclude(c => c.Messages)
-                    .ThenInclude(m => m.Sender)
-                .Where(u => u.UserName == name)
+                    .ThenInclude(uc => uc.Conversation);
+
+            var conversations = users.Where(u => u.UserName == name)
                 .SelectMany(u => u.Conversations)
                 .Select(uc => uc.Conversation);
+
+            return conversations;
         }
     }
 }
