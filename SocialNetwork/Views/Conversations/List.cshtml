@@ -14,7 +14,9 @@
     @{
         foreach (Conversation conv in Model.conversations)
         {
-            @conv.Name 
+            <a href="Dialogue">@conv.Name</a>
+             
+            <img src="@conv.Image" style="width:50px" alt="Alternate Text" />
             //((TextMessage)conv.Messages.FirstOrDefault()).Text;
 
             <div class="w-100"></div>

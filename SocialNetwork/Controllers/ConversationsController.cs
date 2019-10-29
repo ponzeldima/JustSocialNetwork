@@ -39,10 +39,17 @@ namespace SocialNetwork.Controllers
             var user = _usersGetter.GetForUserName(User.Identity.Name);
             var conversations = _conversationsGetter.GetFromUser(User.Identity.Name);
 
-            IEnumerable<Conversation> result = conversations.Select(c => _conversationsGetter.GetForId(c.Id));
+            IEnumerable<Conversation> result = conversations.
+                Select(c => _conversationsGetter.GetForId(c.Id));
+
             result.Where(c => c is Dialogue).ToList()
-                .ForEach(c => c.Name = c.Members.Select(uc => uc.User).Where(u => u.UserName != user.UserName).FirstOrDefault()?.FirstName);
-            obj.conversations = conversations;
+                .ForEach(c => c.Name = c.Members.Select(uc => uc.User)
+                .Where(u => u.UserName != user.UserName).FirstOrDefault()?.FirstName);
+
+            result.Where(c => c is Dialogue).ToList()
+                .ForEach(c => c.Image = c.Members.Select(uc => uc.User)
+                .Where(u => u.UserName != user.UserName).FirstOrDefault()?.Image);
+            obj.conversations = result;
             obj.user = user;
             return View(obj);
         }
