@@ -26,7 +26,7 @@ namespace SocialNetwork.Data.Mocks
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Conversation> GetFromUser(int id)
+        public IEnumerable<Conversation> GetFromUser(string name)
         {
             throw new NotImplementedException();
         }

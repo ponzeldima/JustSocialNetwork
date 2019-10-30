@@ -34,6 +34,16 @@ namespace SocialNetwork.Controllers
             return View();
         }
 
+        public IActionResult UserInformation()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Content(User.Identity.Name);
+            }
+            return Content($"не аутентифицирован {User} - " +
+                $"{User.Identity.Name} - {User.Identity.IsAuthenticated}");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

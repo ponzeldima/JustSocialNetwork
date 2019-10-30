@@ -1,0 +1,32 @@
+﻿@model ConversationsListViewModel
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<div class="p-2 w-100 bg-dark text-light">
+    Dialogue
+    @Model.user.FirstName @Model.user.LastName Conversations
+
+</div>
+
+<div class="p-2 row justify-content-start">
+    @{
+        foreach (Conversation conv in Model.conversations)
+        {
+            <a href="Dialogue/@conv.Id">@conv.Name</a>
+             
+            <img src="@conv.Image" style="width:50px" alt="Alternate Text" />
+            //((TextMessage)conv.Messages.FirstOrDefault()).Text;
+
+            <div class="w-100"></div>
+        }
+    }
+</div>
+
+<div class="p-2 float-down w-100 bg-dark text-light">
+    FieldForSend
+</div>
+
+
+

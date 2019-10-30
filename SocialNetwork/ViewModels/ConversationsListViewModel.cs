@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.ViewModels
 {
-    public class ConversationsDialogueViewModel
+    public class ConversationsListViewModel
     {
-        public Dialogue dialogue { get; set; }
+        public IEnumerable<Conversation> conversations { get; set; }
         public User user { get; set; }
-        public string text { get; set; }
     }
 }

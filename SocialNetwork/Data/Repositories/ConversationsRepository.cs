@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SocialNetwork.Data.Models;
 
 namespace SocialNetwork.Data.Repositories
 {
@@ -32,9 +33,18 @@ namespace SocialNetwork.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Conversation> GetFromUser(int id)
+        public IEnumerable<Conversation> GetFromUser(string name)
         {
-            throw new NotImplementedException();
+            var users = _appDBContent.Users
+                .Include(u => u.Messages)
+                .Include(u => u.Conversations)
+                    .ThenInclude(uc => uc.Conversation);
+
+            var conversations = users.Where(u => u.UserName == name)
+                .SelectMany(u => u.Conversations)
+                .Select(uc => uc.Conversation);
+
+            return conversations;
         }
     }
 }

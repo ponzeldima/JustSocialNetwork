@@ -13,14 +13,38 @@
     @{
         foreach (TextMessage mes in Model.dialogue.Messages)
         {
-            @Html.Partial("TextMessage", mes)
+            if (Model.user.Id == mes.Sender.Id)
+            {
+                @Html.Partial("TextMessage", new TextMessageViewModel() { message = mes, isUserMessage = true })
+            }
+            else
+            {
+                @Html.Partial("TextMessage", new TextMessageViewModel() { message = mes, isUserMessage = false })
+            }
             <div class="w-100"></div>
         }
     }
 </div>
 
 <div class="p-2 float-down w-100 bg-dark text-light">
-    FieldForSend
+    <form action="/Conversations/SendMessage" method="post" data-formType="ConversationsDialogueViewModel">
+
+        <div class="form-group">
+            <label asp-for="text">Введіть текст повідомлення</label>
+            <input type="text" asp-for="text" />
+            <span asp-validation-for="text" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" value="@Model.dialogue.Id" name="conversationId" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" value="@DateTime.Now.ToString()" name="sendTime" />
+        </div>
+        <div class="form-group  text-danger">
+            <input type="submit" value="Надіслати" class="btn bg-danger" />
+        </div>
+
+    </form>
 </div>
 
 
