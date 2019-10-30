@@ -1,10 +1,25 @@
-﻿@model TextMessage
+﻿@model TextMessageViewModel
 
-<div class="p-1">
-    <img class="rounded-circle float-left message-ava" src="@Model.Sender.Image" alt="@Model.Sender.UserName" />
-    <div class="p-1 mb-2 ml-1 bg-info text-white float-left">
-        @Model.Text
-    </div>
-</div>
+@{ if (Model.isUserMessage)
+    {
+        <div class="p-1 float-right" >
+            <div class="p-1 mb-2 ml-1 bg-success text-white float-left">
+                @Model.message.Text
+            </div>
+            <img class="rounded-circle float-right message-ava" src="@Model.message.Sender.Image" alt="@Model.message.Sender.UserName" />
+        </div>
 
+    }
+
+    else
+    {
+        <div class="p-1">
+            <img class="rounded-circle float-left message-ava" src="@Model.message.Sender.Image" alt="@Model.message.Sender.UserName" />
+            <div class="p-1 mb-2 ml-1 bg-info text-white float-left">
+                @Model.message.Text
+            </div>
+        </div>
+    }
+
+}
 

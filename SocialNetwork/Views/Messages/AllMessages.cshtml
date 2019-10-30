@@ -7,7 +7,7 @@
         @{
             foreach (TextMessage mes in Model.messages)
             {
-                @Html.Partial("TextMessage", mes)
+                @Html.Partial("TextMessage", new TextMessageViewModel() { message = mes, isUserMessage = false})
                 <div class="w-100"></div>
             }
         }

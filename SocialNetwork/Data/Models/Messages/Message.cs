@@ -14,6 +14,7 @@ namespace SocialNetwork.Data.Models.Messages
         public User Sender { get; set; }
         public int ConversationId { get; set; }
         public Conversation Conversation { get; set; }
+        public DateTime SendTime { get; set; }
         public Message() { }
         public Message(User sender, Conversation conversation)
         {

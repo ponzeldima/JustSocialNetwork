@@ -91,17 +91,17 @@ namespace SocialNetwork.Data.DB
                 {
                     var list = new Message[]
                     {
-                        new TextMessage(Users["ponzel.dima35"], Conversations["povhmisha - ponzel.dima35"], "Hello)"),
-                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "Hi!"),
-                        new TextMessage(Users["ponzel.dima35"], Conversations["povhmisha - ponzel.dima35"], "How are you?"),
-                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I`m OK. And you?!"),
-                        new TextMessage(Users["ponzel.dima35"], Conversations["povhmisha - ponzel.dima35"], "I am too"),
-                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Misha!"),
-                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaa!"),
-                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaaaaaa!"),
-                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaaaaaaaaaaa!"),
-                        new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!"),
-                        new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!")
+                        new TextMessage(Users["ponzel.dima35"], Conversations["povhmisha - ponzel.dima35"], "Hello)"){ SendTime = new DateTime(2019, 10, 30, 16, 2, 0)},
+                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "Hi!"){ SendTime = new DateTime(2019, 10, 30, 16, 2, 30)},
+                        new TextMessage(Users["ponzel.dima35"], Conversations["povhmisha - ponzel.dima35"], "How are you?"){ SendTime = new DateTime(2019, 10, 30, 16, 2, 45)},
+                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I`m OK. And you?!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 0)},
+                        new TextMessage(Users["ponzel.dima35"], Conversations["povhmisha - ponzel.dima35"], "I am too"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 10)},
+                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Misha!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 40)},
+                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaa!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 50)},
+                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaaaaaa!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 51)},
+                        new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaaaaaaaaaaa!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 52)},
+                        new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!"){ SendTime = new DateTime(2019, 10, 30, 17, 2, 0)},
+                        new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)}
                     };
 
                     messages = new List<Message>();

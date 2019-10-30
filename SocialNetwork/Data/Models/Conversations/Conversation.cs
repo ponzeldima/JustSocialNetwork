@@ -14,6 +14,8 @@ namespace SocialNetwork.Data.Models.Conversations
         public string Image { get;  set; }
         public List<Message> Messages { get; set; }
         public List<UserConversation> Members { get;  set; }
+        public DateTime CreatingTime { get; set; }
+
         public Conversation()
         {
             Messages = new List<Message>();
