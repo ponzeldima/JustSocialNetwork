@@ -28,6 +28,16 @@ namespace SocialNetwork.Data.DB
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
+
+            modelBuilder.Entity<Message>()
+                .Property(m => m.SendTime)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Conversation>()
+                .Property(m => m.CreatingTime)
+                .HasDefaultValueSql("GETDATE()");
 
             modelBuilder.Entity<UserConversation>()
                 .HasKey(uc => new { uc.UserId, uc.ConversationId });

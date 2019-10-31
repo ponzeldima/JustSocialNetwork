@@ -41,17 +41,16 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage(string text, int conversationId, string sendTime)
+        public async Task<IActionResult> SendMessage(string text, int conversationId)
         {
             if (ModelState.IsValid)
             {
                 
                 if (text != "" && !(text is null))
                 {
-                    DateTime _sendTime = Convert.ToDateTime(sendTime);
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
                     Conversation conversation = _conversationsGetter.GetForId(conversationId);
-                    TextMessage message = new TextMessage(user, conversation, text) { SendTime = _sendTime};
+                    TextMessage message = new TextMessage(user, conversation, text);
                     _db.Messages.Add(message);
 
                     await _db.SaveChangesAsync(); // аутентификация
