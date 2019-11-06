@@ -46,7 +46,7 @@ namespace SocialNetwork.Controllers
             if (ModelState.IsValid)
             {
                 
-                if (text != "" && !(text is null))
+                if (text != "" && text.Length < 10000000 && !(text is null))
                 {
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
                     Conversation conversation = _conversationsGetter.GetForId(conversationId);

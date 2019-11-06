@@ -30,14 +30,20 @@ namespace SocialNetwork.Data.DB
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
+            modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.UserName).IsRequired();
 
             modelBuilder.Entity<Message>()
                 .Property(m => m.SendTime)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<TextMessage>().Property(m => m.Text).HasMaxLength(4096);
 
             modelBuilder.Entity<Conversation>()
                 .Property(m => m.CreatingTime)
                 .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Conversation>().HasIndex(c => c.NickName).IsUnique();
+            modelBuilder.Entity<Conversation>().Property(c => c.NickName).IsRequired();
 
             modelBuilder.Entity<UserConversation>()
                 .HasKey(uc => new { uc.UserId, uc.ConversationId });
