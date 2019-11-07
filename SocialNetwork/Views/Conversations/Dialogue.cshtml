@@ -13,16 +13,14 @@
     @{
         foreach (TextMessage mes in Model.dialogue.Messages)
         {
-            if (Model.user.Id == mes.Sender.Id)
+            @Html.Partial("TextMessage", new TextMessageViewModel()
             {
-                @Html.Partial("TextMessage", new TextMessageViewModel() { message = mes, isUserMessage = true })
-            }
-            else
-            {
-                @Html.Partial("TextMessage", new TextMessageViewModel() { message = mes, isUserMessage = false })
-            }
+                message = mes,
+                isUserMessage = Model.user.Id == mes.Sender.Id,
+                isReaded = !Model.notReadedMessages.Any(m => m.Id == mes.Id)
+            });
             <div class="w-100"></div>
-        }
+         }
     }
 </div>
 

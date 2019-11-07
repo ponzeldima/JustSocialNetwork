@@ -22,11 +22,12 @@ namespace SocialNetwork.Data.DB
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Dialogue> Dialogues { get; set; }
         public DbSet<UserConversation> UserConversations { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
@@ -36,7 +37,6 @@ namespace SocialNetwork.Data.DB
             modelBuilder.Entity<Message>()
                 .Property(m => m.SendTime)
                 .HasDefaultValueSql("GETDATE()");
-            modelBuilder.Entity<TextMessage>().Property(m => m.Text).HasMaxLength(4096);
 
             modelBuilder.Entity<Conversation>()
                 .Property(m => m.CreatingTime)
@@ -45,18 +45,39 @@ namespace SocialNetwork.Data.DB
             modelBuilder.Entity<Conversation>().HasIndex(c => c.NickName).IsUnique();
             modelBuilder.Entity<Conversation>().Property(c => c.NickName).IsRequired();
 
+
             modelBuilder.Entity<UserConversation>()
                 .HasKey(uc => new { uc.UserId, uc.ConversationId });
 
             modelBuilder.Entity<UserConversation>()
                 .HasOne(uc => uc.User)
                 .WithMany(u => u.Conversations)
-                .HasForeignKey(uc => uc.UserId);
+                .HasForeignKey(uc => uc.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<UserConversation>()
                 .HasOne(uc => uc.Conversation)
                 .WithMany(c => c.Members)
-                .HasForeignKey(uc => uc.ConversationId);
+                .HasForeignKey(uc => uc.ConversationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+
+            modelBuilder.Entity<UserMessage>()
+                .HasKey(um => new { um.MessageId, um.UserId });
+
+            modelBuilder.Entity<UserMessage>()
+                .HasOne(um => um.Message)
+                .WithMany(m => m.VisibleFor)
+                .HasForeignKey(um => um.MessageId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserMessage>()
+                .HasOne(um => um.User)
+                .WithMany(u => u.VisibleMessages)
+                .HasForeignKey(um => um.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

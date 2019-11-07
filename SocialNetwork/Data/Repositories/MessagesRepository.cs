@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SocialNetwork.Data.Models;
 
 namespace SocialNetwork.Data.Repositories
 {
@@ -22,6 +23,16 @@ namespace SocialNetwork.Data.Repositories
         {
             throw new NotImplementedException();
         }
+        public IEnumerable<UserMessage> GetNotReadedForUserAndConversation(string userId, int conversationId)
+        {
+            var userMessages = _appDBContent.UserMessages.Include(um => um.Message);
+
+            return userMessages.Where(um => um.UserId == userId)
+                .Where(um => um.Message.ConversationId == conversationId)
+                .Where(um => !um.IsRead)
+                .Select(um => um);
+        }
+
 
         public IEnumerable<Message> GetForSubstring(string substring)
         {

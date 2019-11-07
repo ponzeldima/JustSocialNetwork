@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191107114425_DelUserMessage")]
+    partial class DelUserMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,21 +288,6 @@ namespace SocialNetwork.Migrations
                     b.ToTable("UserConversations");
                 });
 
-            modelBuilder.Entity("SocialNetwork.Data.Models.UserMessage", b =>
-                {
-                    b.Property<int>("MessageId");
-
-                    b.Property<string>("UserId");
-
-                    b.Property<bool>("IsRead");
-
-                    b.HasKey("MessageId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserMessages");
-                });
-
             modelBuilder.Entity("SocialNetwork.Data.Models.Role", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
@@ -325,7 +312,8 @@ namespace SocialNetwork.Migrations
                 {
                     b.HasBaseType("SocialNetwork.Data.Models.Messages.Message");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .HasMaxLength(512);
 
                     b.ToTable("TextMessage");
 
@@ -408,19 +396,6 @@ namespace SocialNetwork.Migrations
                         .WithMany("Conversations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SocialNetwork.Data.Models.UserMessage", b =>
-                {
-                    b.HasOne("SocialNetwork.Data.Models.Messages.Message", "Message")
-                        .WithMany("VisibleFor")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SocialNetwork.Data.Models.User", "User")
-                        .WithMany("VisibleMessages")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

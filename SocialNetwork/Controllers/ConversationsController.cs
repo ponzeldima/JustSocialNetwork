@@ -33,10 +33,13 @@ namespace SocialNetwork.Controllers
         public IActionResult Dialogue(int id)
         {
             ConversationsDialogueViewModel obj = new ConversationsDialogueViewModel();
-            obj.user = _usersGetter.GetForUserName(User.Identity.Name);
+            var user = _usersGetter.GetForUserName(User.Identity.Name); 
             Dialogue dialogue = (Dialogue)_conversationsGetter.GetForId(id);
             dialogue.Messages = dialogue.Messages.OrderBy(m => m.SendTime).ToList();
+            obj.user = user;
             obj.dialogue = dialogue;
+            obj.notReadedMessages = _messagesGetter.GetNotReadedForUserAndConversation(user.Id, id)
+                .Select(um => um.Message);
             return View(obj);
         }
 
@@ -67,7 +70,7 @@ namespace SocialNetwork.Controllers
             ConversationsListViewModel obj = new ConversationsListViewModel();
             var user = _usersGetter.GetForUserName(User.Identity.Name);
             var conversations = _conversationsGetter.GetFromUser(User.Identity.Name);
-
+            
             IEnumerable<Conversation> result = conversations.
                 Select(c => _conversationsGetter.GetForId(c.Id));
 
@@ -78,7 +81,14 @@ namespace SocialNetwork.Controllers
             result.Where(c => c is Dialogue).ToList()
                 .ForEach(c => c.Image = c.Members.Select(uc => uc.User)
                 .Where(u => u.UserName != user.UserName).FirstOrDefault()?.Image);
-            obj.conversations = result;
+
+            var dictionary = new Dictionary<Conversation, int>();
+            foreach (Conversation conv in result)
+            {
+                dictionary.Add(conv, _messagesGetter.GetNotReadedForUserAndConversation(user.Id, conv.Id).Count());
+            }
+
+            obj.conversations = dictionary;
             obj.user = user;
             return View(obj);
         }

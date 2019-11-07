@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191107114929_UserMessages")]
+    partial class UserMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,7 +327,8 @@ namespace SocialNetwork.Migrations
                 {
                     b.HasBaseType("SocialNetwork.Data.Models.Messages.Message");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .HasMaxLength(512);
 
                     b.ToTable("TextMessage");
 
@@ -415,12 +418,12 @@ namespace SocialNetwork.Migrations
                     b.HasOne("SocialNetwork.Data.Models.Messages.Message", "Message")
                         .WithMany("VisibleFor")
                         .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SocialNetwork.Data.Models.User", "User")
                         .WithMany("VisibleMessages")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

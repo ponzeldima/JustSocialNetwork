@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191107113006_UserMessage")]
+    partial class UserMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,9 +242,8 @@ namespace SocialNetwork.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("RoleId");
-
-                    b.Property<string>("RoleId1");
+                    b.Property<string>("RoleId")
+                        .IsRequired();
 
                     b.Property<string>("SecurityStamp");
 
@@ -265,7 +266,7 @@ namespace SocialNetwork.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("RoleId1");
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -325,7 +326,8 @@ namespace SocialNetwork.Migrations
                 {
                     b.HasBaseType("SocialNetwork.Data.Models.Messages.Message");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .HasMaxLength(4096);
 
                     b.ToTable("TextMessage");
 
@@ -394,7 +396,8 @@ namespace SocialNetwork.Migrations
                 {
                     b.HasOne("SocialNetwork.Data.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId1");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SocialNetwork.Data.Models.UserConversation", b =>
@@ -415,12 +418,12 @@ namespace SocialNetwork.Migrations
                     b.HasOne("SocialNetwork.Data.Models.Messages.Message", "Message")
                         .WithMany("VisibleFor")
                         .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SocialNetwork.Data.Models.User", "User")
                         .WithMany("VisibleMessages")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -16,6 +16,7 @@ namespace SocialNetwork.Data.Models.Messages
         [Required]
         public string SenderId { get; set; }
         public User Sender { get; set; }
+        public IEnumerable<UserMessage> VisibleFor { get; set; }
         [Required]
         public int ConversationId { get; set; }
         public Conversation Conversation { get; set; }
@@ -26,6 +27,7 @@ namespace SocialNetwork.Data.Models.Messages
         {
             Sender = sender;
             Conversation = conversation;
+            VisibleFor = new List<UserMessage>();
         }
         public void Delete()
         {

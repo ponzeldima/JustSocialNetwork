@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Data.Interfaces;
+using SocialNetwork.Data.Models;
 using SocialNetwork.Data.Models.Conversations;
 using SocialNetwork.Data.Models.Messages;
 using System;
@@ -56,5 +57,9 @@ namespace SocialNetwork.Data.Mocks
             throw new NotImplementedException();
         }
 
+        public IEnumerable<UserMessage> GetNotReadedForUserAndConversation(string userId, int conversationId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

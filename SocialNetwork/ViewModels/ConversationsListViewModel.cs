@@ -9,7 +9,7 @@ namespace SocialNetwork.ViewModels
 {
     public class ConversationsListViewModel
     {
-        public IEnumerable<Conversation> conversations { get; set; }
+        public IDictionary<Conversation, int> conversations { get; set; }
         public User user { get; set; }
     }
 }

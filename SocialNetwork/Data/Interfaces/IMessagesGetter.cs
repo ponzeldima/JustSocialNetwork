@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Data.Models.Messages;
+﻿using SocialNetwork.Data.Models;
+using SocialNetwork.Data.Models.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace SocialNetwork.Data.Interfaces
         IEnumerable<Message> GetFromUser(int UserId);
         Message GetForId(int id);
         IEnumerable<Message> GetForSubstring(string substring);
+        IEnumerable<UserMessage> GetNotReadedForUserAndConversation(string userId, int conversationId);
+
     }
 }

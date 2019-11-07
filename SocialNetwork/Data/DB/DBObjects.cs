@@ -37,6 +37,31 @@ namespace SocialNetwork.Data.DB
             dima.Conversations.Add(new UserConversation { UserId = dima.Id, ConversationId = d_y.Id });
             misha.Conversations.Add(new UserConversation { UserId = misha.Id, ConversationId = m_d.Id });
             slava.Conversations.Add(new UserConversation { UserId = slava.Id, ConversationId = d_y.Id });
+
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[0].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[1].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[2].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[3].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[4].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[5].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[6].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[7].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[8].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[9].Id, IsRead = true });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[10].Id, IsRead = false });
+
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[0].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[1].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[2].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[3].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[4].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[5].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[6].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[7].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[8].Id, IsRead = true });
+
+            slava.VisibleMessages.Add(new UserMessage { UserId = slava.Id, MessageId = Messages[9].Id, IsRead = true });
+            slava.VisibleMessages.Add(new UserMessage { UserId = slava.Id, MessageId = Messages[10].Id, IsRead = true });
             content.SaveChanges();
         }
 
