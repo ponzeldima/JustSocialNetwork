@@ -30,7 +30,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet]
-        public IActionResult Dialogue(int id)
+        public  IActionResult Dialogue(int id)
         {
             ConversationsDialogueViewModel obj = new ConversationsDialogueViewModel();
             var user = _usersGetter.GetForUserName(User.Identity.Name); 
@@ -40,7 +40,25 @@ namespace SocialNetwork.Controllers
             obj.dialogue = dialogue;
             obj.notReadedMessages = _messagesGetter.GetNotReadedForUserAndConversation(user.Id, id)
                 .Select(um => um.Message);
+
+
             return View(obj);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReadMessages(string userId, int conversationId)
+        {
+            var notReadedMessages = _messagesGetter.GetNotReadedForUserAndConversation(userId, conversationId)
+                .Select(um => um.Message);
+
+            var notReadedMessagesForUser = _db.UserMessages.ToList();
+            notReadedMessagesForUser = notReadedMessagesForUser
+                .Where(um => um.UserId == userId && notReadedMessages.Any(m => m.Id == um.MessageId)).ToList();
+            notReadedMessagesForUser
+                .ForEach(um => um.IsRead = true);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction($"Dialogue/{conversationId}", "Conversations");
         }
 
         [HttpPost]
@@ -49,12 +67,19 @@ namespace SocialNetwork.Controllers
             if (ModelState.IsValid)
             {
                 
-                if (text != "" && text.Length < 10000000 && !(text is null))
+                if (text != "" && !(text is null))
                 {
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
                     Conversation conversation = _conversationsGetter.GetForId(conversationId);
                     TextMessage message = new TextMessage(user, conversation, text);
                     _db.Messages.Add(message);
+                    _db.SaveChanges();
+                    foreach (string userId in conversation.Members.Select(um => um.UserId))
+                    {
+                        if(userId != user.Id)
+                            message.VisibleFor.Add(new UserMessage { UserId = userId, MessageId = message.Id });
+                    }
+                    message.VisibleFor.Add(new UserMessage { UserId = user.Id, MessageId = message.Id, IsRead = true });
 
                     await _db.SaveChangesAsync(); // аутентификация
 

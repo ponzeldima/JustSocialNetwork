@@ -40,6 +40,20 @@
         </div>
 
     </form>
+
+    <form action="/Conversations/ReadMessages" method="post" data-formType="ConversationsDialogueViewModel">
+
+        <div class="form-group">
+            <input type="hidden" value="@Model.dialogue.Id" name="conversationId" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" value="@Model.user.Id" name="userId" />
+        </div>
+        <div class="form-group  text-danger">
+            <input type="submit" value="Прочитати" class="btn bg-danger" />
+        </div>
+
+    </form>
 </div>
 
 
