@@ -3,10 +3,11 @@
     ViewData["Title"] = Model.dialogue.NickName;
 }
 
+
 <div class="p-2 w-100 bg-dark text-light">
-    Dialogue                              
+    Dialogue
     @Model.dialogue.Members.ToList()[0].User.FirstName - @Model.dialogue.Members.ToList()[1].User.FirstName
-   
+
 </div>
 
 <div class="p-2 row justify-content-start">
@@ -20,9 +21,47 @@
                 isReaded = !Model.notReadedMessages.Any(m => m.Id == mes.Id)
             });
             <div class="w-100"></div>
-         }
+        }
     }
 </div>
+
+<script type="text/javascript">
+    $(".isNotReaded").animate({
+        backgroundColor: "white"
+    }, 2000);
+
+
+
+    var data = {
+        model: {
+            userId: "@Model.user.Id",
+            conversationId: @Model.dialogue.Id,
+        }
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Conversations/ReadMessages/",
+        data: JSON.stringify({
+            userId: "@Model.user.Id",
+            conversationId: @Model.dialogue.Id,
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+
+</script>
+
+
+<script type="text/javascript">
+
+</script>
 
 <div class="p-2 float-down w-100 bg-dark text-light">
     <form action="/Conversations/SendMessage" method="post" data-formType="ConversationsDialogueViewModel">

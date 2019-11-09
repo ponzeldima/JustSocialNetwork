@@ -38,7 +38,7 @@ namespace SocialNetwork.Controllers
             dialogue.Messages = dialogue.Messages.OrderBy(m => m.SendTime).ToList();
             obj.user = user;
             obj.dialogue = dialogue;
-            obj.notReadedMessages = _messagesGetter.GetNotReadedForUserAndConversation(user.Id, id)
+            obj.notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(user.Id, id)
                 .Select(um => um.Message);
 
 
@@ -46,19 +46,19 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReadMessages(string userId, int conversationId)
+        public JsonResult ReadMessages([FromBody]MessageReadViewModel model)
         {
-            var notReadedMessages = _messagesGetter.GetNotReadedForUserAndConversation(userId, conversationId)
+            var notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(model.userId, model.conversationId)
                 .Select(um => um.Message);
 
             var notReadedMessagesForUser = _db.UserMessages.ToList();
             notReadedMessagesForUser = notReadedMessagesForUser
-                .Where(um => um.UserId == userId && notReadedMessages.Any(m => m.Id == um.MessageId)).ToList();
+                .Where(um => um.UserId == model.userId && notReadedMessages.Any(m => m.Id == um.MessageId)).ToList();
             notReadedMessagesForUser
                 .ForEach(um => um.IsRead = true);
-            await _db.SaveChangesAsync();
+             _db.SaveChanges();
 
-            return RedirectToAction($"Dialogue/{conversationId}", "Conversations");
+            return Json("Ok");
         }
 
         [HttpPost]
@@ -110,12 +110,20 @@ namespace SocialNetwork.Controllers
             var dictionary = new Dictionary<Conversation, int>();
             foreach (Conversation conv in result)
             {
-                dictionary.Add(conv, _messagesGetter.GetNotReadedForUserAndConversation(user.Id, conv.Id).Count());
+                dictionary.Add(conv, _messagesGetter.GetNotReadForUserAndConversation(user.Id, conv.Id).Count());
             }
 
             obj.conversations = dictionary;
             obj.user = user;
             return View(obj);
         }
+
+        public int GetNotReadConversationsCount()
+        {
+            var user = _usersGetter.GetForUserName(User.Identity.Name);
+
+            int notReadConversationsCount = _conversationsGetter.GetNotReadForUser(user.Id).Count();
+            return notReadConversationsCount;
+        } 
     }
 }

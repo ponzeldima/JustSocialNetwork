@@ -12,5 +12,7 @@ namespace SocialNetwork.Data.Interfaces
         IEnumerable<Conversation> GetFromUser(string name);
         Conversation GetForId(int id); 
         Conversation GetForName(string name);
+        IEnumerable<Conversation> GetNotReadForUser(string userId);
+
     }
 }

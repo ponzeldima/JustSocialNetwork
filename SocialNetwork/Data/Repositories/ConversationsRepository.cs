@@ -46,5 +46,20 @@ namespace SocialNetwork.Data.Repositories
 
             return conversations;
         }
+
+        public IEnumerable<Conversation> GetNotReadForUser(string userId)
+        {
+            var userMessage = _appDBContent.UserMessages
+                .Include(um => um.Message)
+                    .ThenInclude(m => m.Conversation);
+
+            var conversations = userMessage
+                .Where(um => um.UserId == userId && !um.IsRead)
+                .Select(um => um.Message)
+                .Select(m => m.Conversation)
+                .Distinct();
+
+            return conversations;
+        }
     }
 }

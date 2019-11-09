@@ -4,11 +4,13 @@
     if (!Model.isReaded) { isNotReaded = "isNotReaded"; }
     string divClasses = "";
     string imgClasses = "";
-    if (Model.isUserMessage) {
+    if (Model.isUserMessage)
+    {
         divClasses = "mr-1 bg-success rounded-left float-right";
         imgClasses = "mr-1 float-right";
     }
-    else {
+    else
+    {
         divClasses = "ml-1 bg-info rounded-right float-left";
         imgClasses = "ml-1 float-left";
     }
@@ -20,3 +22,5 @@
         @Model.message.Text
     </div>
 </div>
+
+

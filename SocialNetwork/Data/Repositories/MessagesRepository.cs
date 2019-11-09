@@ -23,7 +23,7 @@ namespace SocialNetwork.Data.Repositories
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<UserMessage> GetNotReadedForUserAndConversation(string userId, int conversationId)
+        public IEnumerable<UserMessage> GetNotReadForUserAndConversation(string userId, int conversationId)
         {
             var userMessages = _appDBContent.UserMessages.Include(um => um.Message);
 

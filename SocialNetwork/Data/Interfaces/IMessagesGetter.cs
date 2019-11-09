@@ -14,7 +14,7 @@ namespace SocialNetwork.Data.Interfaces
         IEnumerable<Message> GetFromUser(int UserId);
         Message GetForId(int id);
         IEnumerable<Message> GetForSubstring(string substring);
-        IEnumerable<UserMessage> GetNotReadedForUserAndConversation(string userId, int conversationId);
+        IEnumerable<UserMessage> GetNotReadForUserAndConversation(string userId, int conversationId);
 
     }
 }
