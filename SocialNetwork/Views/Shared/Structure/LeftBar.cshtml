@@ -13,8 +13,10 @@
             <a href="~/Conversations/Dialogue">Dialogue</a>
         </li>
         <li>
-            <a href="~/Conversations/List">Conversations</a>
-            
+            <div>
+                <a class="float-left" href="~/Conversations/List">Conversations</a>
+                <div id="conversationCount" class="bg-danger text-light float-left px-1 ml-1 rounded-circle"></div>
+            </div>
         </li>
         <li>
             <a href="/Home/UserInformation">Check Username</a>
@@ -24,3 +26,30 @@
         </li>
     </ul>
 </div>
+
+<script type="text/javascript">
+    let count = 0;
+    @{ string authorize = "false";
+        if (!(User.Identity.Name is null))
+        {
+            authorize = "true";
+        }
+    }
+    if (@authorize) {
+        $.ajax({
+            type: "GET",
+            url: "/Conversations/GetNotReadConversationsCount/",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                count = data;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    };
+    $("#conversationCount").html(count != 0 ? count : "");
+</script>
+

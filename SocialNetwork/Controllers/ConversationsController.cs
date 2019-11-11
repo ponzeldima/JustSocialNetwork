@@ -62,16 +62,16 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage(string text, int conversationId)
+        public JsonResult SendMessage([FromBody]TextMessageSendViewModel model)
         {
             if (ModelState.IsValid)
             {
                 
-                if (text != "" && !(text is null))
+                if (model.text != "" && !(model.text is null))
                 {
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
-                    Conversation conversation = _conversationsGetter.GetForId(conversationId);
-                    TextMessage message = new TextMessage(user, conversation, text);
+                    Conversation conversation = _conversationsGetter.GetForId(model.conversationId);
+                    TextMessage message = new TextMessage(user, conversation, model.text);
                     _db.Messages.Add(message);
                     _db.SaveChanges();
                     foreach (string userId in conversation.Members.Select(um => um.UserId))
@@ -81,13 +81,13 @@ namespace SocialNetwork.Controllers
                     }
                     message.VisibleFor.Add(new UserMessage { UserId = user.Id, MessageId = message.Id, IsRead = true });
 
-                    await _db.SaveChangesAsync(); // аутентификация
+                    _db.SaveChanges(); // аутентификация
 
-                    return RedirectToAction($"Dialogue/{conversationId}","Conversations");
+                    return Json("Ok");
                 }
                 ModelState.AddModelError("", "Порожнє повідомлення");
             }
-            return RedirectToAction($"Dialogue/{conversationId}", "Conversations");
+            return Json("Error");
         }
 
         public ViewResult List()

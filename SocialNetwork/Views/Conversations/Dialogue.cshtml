@@ -25,6 +25,23 @@
     }
 </div>
 
+<div class="p-2 float-down w-100 bg-dark text-light">
+    <form>
+
+        <div class="form-group">
+            <label asp-for="text">Введіть текст повідомлення</label>
+            <input id="inputText" type="text" asp-for="text" />
+            <span asp-validation-for="text" />
+        </div>
+        <div class="form-group  text-danger">
+            <button id="btn_send" value="Надіслати" class="btn bg-danger">Надіслати</button>
+        </div>
+
+    </form>
+
+</div>
+
+
 <script type="text/javascript">
     $(".isNotReaded").animate({
         backgroundColor: "white"
@@ -32,7 +49,7 @@
 
 
 
-    var data = {
+    var dataForRead = {
         model: {
             userId: "@Model.user.Id",
             conversationId: @Model.dialogue.Id,
@@ -42,10 +59,7 @@
     $.ajax({
         type: "POST",
         url: "/Conversations/ReadMessages/",
-        data: JSON.stringify({
-            userId: "@Model.user.Id",
-            conversationId: @Model.dialogue.Id,
-        }),
+        data: JSON.stringify(dataForRead.model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
@@ -56,43 +70,29 @@
         }
     });
 
+
+    $("#btn_send").click(function () {
+
+        //var Value = $("#inputText").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Conversations/SendMessage/",
+            data: JSON.stringify({
+                text: $("#inputText").val(),
+                conversationId: @Model.dialogue.Id,
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+                alert("vse ok");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+
+    });
 </script>
-
-
-<script type="text/javascript">
-
-</script>
-
-<div class="p-2 float-down w-100 bg-dark text-light">
-    <form action="/Conversations/SendMessage" method="post" data-formType="ConversationsDialogueViewModel">
-
-        <div class="form-group">
-            <label asp-for="text">Введіть текст повідомлення</label>
-            <input type="text" asp-for="text" />
-            <span asp-validation-for="text" />
-        </div>
-        <div class="form-group">
-            <input type="hidden" value="@Model.dialogue.Id" name="conversationId" />
-        </div>
-        <div class="form-group  text-danger">
-            <input type="submit" value="Надіслати" class="btn bg-danger" />
-        </div>
-
-    </form>
-
-    <form action="/Conversations/ReadMessages" method="post" data-formType="ConversationsDialogueViewModel">
-
-        <div class="form-group">
-            <input type="hidden" value="@Model.dialogue.Id" name="conversationId" />
-        </div>
-        <div class="form-group">
-            <input type="hidden" value="@Model.user.Id" name="userId" />
-        </div>
-        <div class="form-group  text-danger">
-            <input type="submit" value="Прочитати" class="btn bg-danger" />
-        </div>
-
-    </form>
-</div>
-
 
