@@ -48,5 +48,23 @@ namespace SocialNetwork.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Message> GetNotReadForAnotherUserInConversation(string userId, int conversationId)
+        {
+            var userMessages = _appDBContent.UserMessages.Include(um => um.Message);
+
+            var messages = userMessages.Where(um => um.Message.ConversationId == conversationId && um.UserId != userId && !um.IsRead)
+                .Select(um => um.Message).Distinct();
+
+            List<Message> result = new List<Message>();
+
+            foreach (Message message in messages)
+            {
+                if (userMessages.Where(um => um.MessageId == message.Id && um.UserId != userId).All(um => !um.IsRead))
+                    result.Add(message);
+            }
+
+            return result;
+        }
     }
 }

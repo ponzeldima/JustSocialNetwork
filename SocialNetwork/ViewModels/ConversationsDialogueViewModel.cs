@@ -12,6 +12,7 @@ namespace SocialNetwork.ViewModels
     {
         public Dialogue dialogue { get; set; }
         public IEnumerable<Message> notReadedMessages { get; set; }
+        public IEnumerable<Message> notReadedMessagesForAnotherUser { get; set; }
         public User user { get; set; }
         public string text { get; set; }
     }

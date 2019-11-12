@@ -40,7 +40,7 @@ namespace SocialNetwork.Controllers
             obj.dialogue = dialogue;
             obj.notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(user.Id, id)
                 .Select(um => um.Message);
-
+            obj.notReadedMessagesForAnotherUser = _messagesGetter.GetNotReadForAnotherUserInConversation(user.Id, dialogue.Id);
 
             return View(obj);
         }

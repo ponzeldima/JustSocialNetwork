@@ -61,5 +61,10 @@ namespace SocialNetwork.Data.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Message> GetNotReadForAnotherUserInConversation(string userId, int conversationId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

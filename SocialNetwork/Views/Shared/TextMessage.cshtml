@@ -1,7 +1,9 @@
 ﻿@model TextMessageViewModel
 
 @{ string isNotReaded = "";
-    if (!Model.isReaded) { isNotReaded = "isNotReaded"; }
+    if (!Model.isRead) { isNotReaded = "isNotReaded"; }
+    string isNotReadForAnotherUser = "";
+    if (!Model.isReadForAnotherUsers) { isNotReadForAnotherUser = "isNotReadForAnotherUser"; }
     string divClasses = "";
     string imgClasses = "";
     if (Model.isUserMessage)
@@ -21,6 +23,15 @@
     <div class="p-1 my-1 @divClasses text-white">
         @Model.message.Text
     </div>
+    @{
+        if (!Model.isReadForAnotherUsers)
+        {
+        <div class="notReadDot mr-2 my-3 p-1 align-bottom float-right bg-info rounded-circle">
+        
+        </div>
+        }
+
+    }
 </div>
 
 
