@@ -1,6 +1,6 @@
 ﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <a href="#" class="navbar-brand">
-        <img src="~/image/Dima.jpg"
+        <img id="nav_avatar" src=""
              width="30" height="30" alt="logo" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -28,3 +28,29 @@
         </form>
     </div>
 </nav>
+
+<script>
+    @{ string authorize = "false";
+        if (!(User.Identity.Name is null))
+        {
+            authorize = "true";
+        }
+    }
+    if (@authorize) {
+        $.ajax({
+            type: "GET",
+            url: "/Users/GetUserIdentifiers/",
+            dataType: "json",
+            success: function (data) {
+                $("#nav_avatar").attr("src", data.image);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+    else {
+        $("#nav_avatar").attr("src", "https://klike.net/uploads/posts/2019-03/1551511862_28.jpg");
+    }
+</script>

@@ -10,7 +10,7 @@
 
 </div>
 
-<div class="p-2 row justify-content-start">
+<div id="message_board" class="p-2 row justify-content-start">
     @{
         foreach (TextMessage mes in Model.dialogue.Messages)
         {
@@ -32,7 +32,7 @@
         <span asp-validation-for="text" />
     </div>
     <div class="form-group  text-danger">
-        <button id="btn_send"  class="btn bg-danger" type='button'>Надіслати</button>
+        <button id="btn_send"  class="btn bg-danger" onclick="reload">Надіслати</button>
     </div>
 </div>
 
@@ -57,7 +57,7 @@
         data: JSON.stringify(dataForRead.model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function (msg) {
+        success: function (data) {
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -75,9 +75,6 @@
 
 
     $("#btn_send").click(function () {
-
-        //var Value = $("#inputText").val();
-
         $.ajax({
             type: "POST",
             url: "/Conversations/SendMessage/",
@@ -87,8 +84,8 @@
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (msg) {
-                alert("vse ok");
+            success: function (data) {
+                location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
@@ -96,7 +93,21 @@
             }
         });
 
-    });
+    });        
+
+            @*$.ajax({
+                type: "GET",
+                url: "/Conversations/Dialogue/@Model.dialogue.Id",
+                dataType: "html",
+                success: function (data) {
+                    $(".main").html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });*@
+
 
 
 </script>
