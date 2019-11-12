@@ -26,19 +26,14 @@
 </div>
 
 <div class="p-2 float-down w-100 bg-dark text-light">
-    <form>
-
-        <div class="form-group">
-            <label asp-for="text">Введіть текст повідомлення</label>
-            <input id="inputText" type="text" asp-for="text" />
-            <span asp-validation-for="text" />
-        </div>
-        <div class="form-group  text-danger">
-            <button id="btn_send" value="Надіслати" class="btn bg-danger">Надіслати</button>
-        </div>
-
-    </form>
-
+    <div class="form-group">
+        <label asp-for="text">Введіть текст повідомлення</label>
+        <input id="inputText" type="text" asp-for="text" />
+        <span asp-validation-for="text" />
+    </div>
+    <div class="form-group  text-danger">
+        <button id="btn_send"  class="btn bg-danger" type='button'>Надіслати</button>
+    </div>
 </div>
 
 
@@ -70,6 +65,14 @@
         }
     });
 
+    var input = document.getElementById("inputText");
+    input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("btn_send").click();
+        }
+    });
+
 
     $("#btn_send").click(function () {
 
@@ -94,5 +97,7 @@
         });
 
     });
+
+
 </script>
 
