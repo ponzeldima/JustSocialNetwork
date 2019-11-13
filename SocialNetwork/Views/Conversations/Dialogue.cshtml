@@ -48,7 +48,7 @@
     var dataForRead = {
         model: {
             userId: "@Model.user.Id",
-            conversationId: @Model.dialogue.Id,
+            conversationId: "@Model.dialogue.Id",
         }
     };
 
@@ -81,7 +81,7 @@
             url: "/Conversations/SendMessage/",
             data: JSON.stringify({
                 text: $("#inputText").val(),
-                conversationId: @Model.dialogue.Id,
+                conversationId: "@Model.dialogue.Id",
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",

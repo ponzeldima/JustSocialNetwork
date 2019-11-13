@@ -23,7 +23,7 @@ namespace SocialNetwork.Data.Repositories
                 .Include(c => c.Messages)
                     .ThenInclude(m => m.Sender);
 
-        public Conversation GetForId(int id)
+        public Conversation GetForId(Guid id)
         {
             return AllConversations.FirstOrDefault(c => c.Id == id);
         }

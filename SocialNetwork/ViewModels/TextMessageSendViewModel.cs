@@ -8,6 +8,6 @@ namespace SocialNetwork.ViewModels
     public class TextMessageSendViewModel
     {
         public string text { get; set; }
-        public int conversationId { get; set; }
+        public Guid conversationId { get; set; }
     }
 }

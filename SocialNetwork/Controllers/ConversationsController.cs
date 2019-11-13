@@ -30,7 +30,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet]
-        public  IActionResult Dialogue(int id)
+        public  IActionResult Dialogue(Guid id)
         {
             ConversationsDialogueViewModel obj = new ConversationsDialogueViewModel();
             var user = _usersGetter.GetForUserName(User.Identity.Name); 
@@ -70,7 +70,7 @@ namespace SocialNetwork.Controllers
                 if (model.text != "" && !(model.text is null))
                 {
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
-                    Conversation conversation = _conversationsGetter.GetForId(model.conversationId);
+                    Conversation conversation = _conversationsGetter.GetForId(model.conversationId );
                     TextMessage message = new TextMessage(user, conversation, model.text);
                     _db.Messages.Add(message);
                     _db.SaveChanges();

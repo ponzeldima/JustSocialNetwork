@@ -2,8 +2,6 @@
 
 @{ string isNotReaded = "";
     if (!Model.isRead) { isNotReaded = "isNotReaded"; }
-    string isNotReadForAnotherUser = "";
-    if (!Model.isReadForAnotherUsers) { isNotReadForAnotherUser = "isNotReadForAnotherUser"; }
     string divClasses = "";
     string imgClasses = "";
     if (Model.isUserMessage)
@@ -26,9 +24,7 @@
     @{
         if (!Model.isReadForAnotherUsers)
         {
-        <div class="notReadDot mr-2 my-3 p-1 align-bottom float-right bg-info rounded-circle">
-        
-        </div>
+        <div class="notReadDot mr-2 my-3 p-1 align-bottom float-right bg-info rounded-circle"></div>
         }
 
     }

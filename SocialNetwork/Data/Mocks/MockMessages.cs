@@ -32,7 +32,7 @@ namespace SocialNetwork.Data.Mocks
         };
         
 
-        public IEnumerable<Message> GetFromConversation(int ConvId)
+        public IEnumerable<Message> GetFromConversation(Guid ConvId)
         {
             var res = new List<Message>();
             foreach (Message message in AllMessges)
@@ -42,7 +42,7 @@ namespace SocialNetwork.Data.Mocks
             }
             return res;
         }
-        public Message GetForId(int id)
+        public Message GetForId(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -57,12 +57,12 @@ namespace SocialNetwork.Data.Mocks
             throw new NotImplementedException();
         }
 
-        public IEnumerable<UserMessage> GetNotReadForUserAndConversation(string userId, int conversationId)
+        public IEnumerable<UserMessage> GetNotReadForUserAndConversation(string userId, Guid conversationId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Message> GetNotReadForAnotherUserInConversation(string userId, int conversationId)
+        public IEnumerable<Message> GetNotReadForAnotherUserInConversation(string userId, Guid conversationId)
         {
             throw new NotImplementedException();
         }

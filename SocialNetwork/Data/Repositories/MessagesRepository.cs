@@ -19,11 +19,11 @@ namespace SocialNetwork.Data.Repositories
         }
         public IEnumerable<Message> AllMessges => _appDBContent.Messages.Include(m => m.Sender);
 
-        public Message GetForId(int id)
+        public Message GetForId(Guid id)
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<UserMessage> GetNotReadForUserAndConversation(string userId, int conversationId)
+        public IEnumerable<UserMessage> GetNotReadForUserAndConversation(string userId, Guid conversationId)
         {
             var userMessages = _appDBContent.UserMessages.Include(um => um.Message);
 
@@ -39,7 +39,7 @@ namespace SocialNetwork.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Message> GetFromConversation(int ConvId)
+        public IEnumerable<Message> GetFromConversation(Guid ConvId)
         {
             throw new NotImplementedException();
         }
@@ -49,7 +49,7 @@ namespace SocialNetwork.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Message> GetNotReadForAnotherUserInConversation(string userId, int conversationId)
+        public IEnumerable<Message> GetNotReadForAnotherUserInConversation(string userId, Guid conversationId)
         {
             var userMessages = _appDBContent.UserMessages.Include(um => um.Message);
 

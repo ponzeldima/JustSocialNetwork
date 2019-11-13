@@ -16,7 +16,7 @@ namespace SocialNetwork.Data.Mocks
             new Dialogue()
         };
 
-        public Conversation GetForId(int id)
+        public Conversation GetForId(Guid id)
         {
             throw new NotImplementedException();
         }

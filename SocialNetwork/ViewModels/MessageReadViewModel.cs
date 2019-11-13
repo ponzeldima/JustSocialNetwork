@@ -8,6 +8,6 @@ namespace SocialNetwork.ViewModels
     public class MessageReadViewModel
     {
         public string userId { get; set; }
-        public int conversationId { get; set; }
+        public Guid conversationId { get; set; }
     }
 }

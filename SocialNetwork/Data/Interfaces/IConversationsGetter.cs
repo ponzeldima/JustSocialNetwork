@@ -10,7 +10,7 @@ namespace SocialNetwork.Data.Interfaces
     {
         IEnumerable<Conversation> AllConversations { get; }
         IEnumerable<Conversation> GetFromUser(string name);
-        Conversation GetForId(int id); 
+        Conversation GetForId(Guid id); 
         Conversation GetForName(string name);
         IEnumerable<Conversation> GetNotReadForUser(string userId);
 

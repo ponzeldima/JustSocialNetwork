@@ -9,7 +9,7 @@ namespace SocialNetwork.Data.Models.Conversations
 {
     public abstract class Conversation
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string NickName { get; set; }
         public string Name { get; set; }
         public string Image { get;  set; }

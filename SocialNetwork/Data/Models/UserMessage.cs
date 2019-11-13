@@ -11,7 +11,7 @@ namespace SocialNetwork.Data.Models
     public class UserMessage
     {
         [Required]
-        public int MessageId { get; set; }
+        public Guid MessageId { get; set; }
         public Message Message { get; set; }
 
         [Required]
