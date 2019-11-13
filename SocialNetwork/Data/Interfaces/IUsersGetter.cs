@@ -9,7 +9,7 @@ namespace SocialNetwork.Data.Interfaces
     public interface IUsersGetter
     {
         IEnumerable<User> AllUsers { get; }
-        IEnumerable<User> GetFromConversation(int convId);
+        IEnumerable<User> GetFromConversation(Guid convId);
         User GetForId(int id);
         User GetForUserName(string userName);
         User GetForPhone(string phone);

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191031002111_SendTimeAuto")]
+    partial class SendTimeAuto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,12 +142,13 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Data.Models.Conversations.Conversation", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatingTime")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasComputedColumnSql("GETDATE()");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -154,13 +157,9 @@ namespace SocialNetwork.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("NickName")
-                        .IsRequired();
+                    b.Property<string>("NickName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NickName")
-                        .IsUnique();
 
                     b.ToTable("Conversations");
 
@@ -169,10 +168,11 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Data.Models.Messages.Message", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("ConversationId");
+                    b.Property<int>("ConversationId");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -181,8 +181,7 @@ namespace SocialNetwork.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("SenderId")
-                        .IsRequired();
+                    b.Property<string>("SenderId");
 
                     b.HasKey("Id");
 
@@ -206,18 +205,15 @@ namespace SocialNetwork.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired();
+                    b.Property<string>("FirstName");
 
                     b.Property<string>("Image");
 
-                    b.Property<string>("LastName")
-                        .IsRequired();
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -229,8 +225,7 @@ namespace SocialNetwork.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Password")
-                        .IsRequired();
+                    b.Property<string>("Password");
 
                     b.Property<string>("PasswordHash");
 
@@ -238,22 +233,20 @@ namespace SocialNetwork.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("RoleId");
-
-                    b.Property<string>("RoleId1");
+                    b.Property<string>("RoleId");
 
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -263,10 +256,11 @@ namespace SocialNetwork.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("RoleId1");
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserName")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -275,28 +269,13 @@ namespace SocialNetwork.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<Guid>("ConversationId");
+                    b.Property<int>("ConversationId");
 
                     b.HasKey("UserId", "ConversationId");
 
                     b.HasIndex("ConversationId");
 
                     b.ToTable("UserConversations");
-                });
-
-            modelBuilder.Entity("SocialNetwork.Data.Models.UserMessage", b =>
-                {
-                    b.Property<Guid>("MessageId");
-
-                    b.Property<string>("UserId");
-
-                    b.Property<bool>("IsRead");
-
-                    b.HasKey("MessageId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserMessages");
                 });
 
             modelBuilder.Entity("SocialNetwork.Data.Models.Role", b =>
@@ -384,15 +363,14 @@ namespace SocialNetwork.Migrations
 
                     b.HasOne("SocialNetwork.Data.Models.User", "Sender")
                         .WithMany("Messages")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SenderId");
                 });
 
             modelBuilder.Entity("SocialNetwork.Data.Models.User", b =>
                 {
                     b.HasOne("SocialNetwork.Data.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId1");
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("SocialNetwork.Data.Models.UserConversation", b =>
@@ -406,19 +384,6 @@ namespace SocialNetwork.Migrations
                         .WithMany("Conversations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SocialNetwork.Data.Models.UserMessage", b =>
-                {
-                    b.HasOne("SocialNetwork.Data.Models.Messages.Message", "Message")
-                        .WithMany("VisibleFor")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SocialNetwork.Data.Models.User", "User")
-                        .WithMany("VisibleMessages")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

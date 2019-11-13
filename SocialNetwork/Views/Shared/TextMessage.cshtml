@@ -1,25 +1,33 @@
 ﻿@model TextMessageViewModel
 
-@{ if (Model.isUserMessage)
+@{ string isNotReaded = "";
+    if (!Model.isRead) { isNotReaded = "isNotReaded"; }
+    string divClasses = "";
+    string imgClasses = "";
+    if (Model.isUserMessage)
     {
-        <div class="p-1 float-right" >
-            <div class="p-1 mb-2 ml-1 bg-success text-white float-left">
-                @Model.message.Text
-            </div>
-            <img class="rounded-circle float-right message-ava" src="@Model.message.Sender.Image" alt="@Model.message.Sender.UserName" />
-        </div>
-
+        divClasses = "mr-1 bg-success rounded-left float-right";
+        imgClasses = "mr-1 float-right";
     }
-
     else
     {
-        <div class="p-1">
-            <img class="rounded-circle float-left message-ava" src="@Model.message.Sender.Image" alt="@Model.message.Sender.UserName" />
-            <div class="p-1 mb-2 ml-1 bg-info text-white float-left">
-                @Model.message.Text
-            </div>
-        </div>
+        divClasses = "ml-1 bg-info rounded-right float-left";
+        imgClasses = "ml-1 float-left";
     }
-
 }
+
+<div class="p-1 rounded-lg w-100 @isNotReaded ">
+    <img class="rounded-circle my-1 @imgClasses message-ava" src="@Model.message.Sender.Image" alt="@Model.message.Sender.UserName" />
+    <div class="p-1 my-1 @divClasses text-white">
+        @Model.message.Text
+    </div>
+    @{
+        if (!Model.isReadForAnotherUsers)
+        {
+        <div class="notReadDot mr-2 my-3 p-1 align-bottom float-right bg-info rounded-circle"></div>
+        }
+
+    }
+</div>
+
 

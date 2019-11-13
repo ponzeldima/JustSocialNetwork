@@ -30,37 +30,64 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet]
-        public IActionResult Dialogue(int id)
+        public  IActionResult Dialogue(Guid id)
         {
             ConversationsDialogueViewModel obj = new ConversationsDialogueViewModel();
-            obj.user = _usersGetter.GetForUserName(User.Identity.Name);
+            var user = _usersGetter.GetForUserName(User.Identity.Name); 
             Dialogue dialogue = (Dialogue)_conversationsGetter.GetForId(id);
             dialogue.Messages = dialogue.Messages.OrderBy(m => m.SendTime).ToList();
+            obj.user = user;
             obj.dialogue = dialogue;
+            obj.notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(user.Id, id)
+                .Select(um => um.Message);
+            obj.notReadedMessagesForAnotherUser = _messagesGetter.GetNotReadForAnotherUserInConversation(user.Id, dialogue.Id);
+
             return View(obj);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage(string text, int conversationId, string sendTime)
+        public JsonResult ReadMessages([FromBody]MessageReadViewModel model)
+        {
+            var notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(model.userId, model.conversationId)
+                .Select(um => um.Message);
+
+            var notReadedMessagesForUser = _db.UserMessages.ToList();
+            notReadedMessagesForUser = notReadedMessagesForUser
+                .Where(um => um.UserId == model.userId && notReadedMessages.Any(m => m.Id == um.MessageId)).ToList();
+            notReadedMessagesForUser
+                .ForEach(um => um.IsRead = true);
+             _db.SaveChanges();
+
+            return Json("Ok");
+        }
+
+        [HttpPost]
+        public JsonResult SendMessage([FromBody]TextMessageSendViewModel model)
         {
             if (ModelState.IsValid)
             {
                 
-                if (text != "" && !(text is null))
+                if (model.text != "" && !(model.text is null))
                 {
-                    DateTime _sendTime = Convert.ToDateTime(sendTime);
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
-                    Conversation conversation = _conversationsGetter.GetForId(conversationId);
-                    TextMessage message = new TextMessage(user, conversation, text) { SendTime = _sendTime};
+                    Conversation conversation = _conversationsGetter.GetForId(model.conversationId );
+                    TextMessage message = new TextMessage(user, conversation, model.text);
                     _db.Messages.Add(message);
+                    _db.SaveChanges();
+                    foreach (string userId in conversation.Members.Select(um => um.UserId))
+                    {
+                        if(userId != user.Id)
+                            message.VisibleFor.Add(new UserMessage { UserId = userId, MessageId = message.Id });
+                    }
+                    message.VisibleFor.Add(new UserMessage { UserId = user.Id, MessageId = message.Id, IsRead = true });
 
-                    await _db.SaveChangesAsync(); // аутентификация
+                    _db.SaveChanges(); // аутентификация
 
-                    return RedirectToAction($"Dialogue/{conversationId}","Conversations");
+                    return Json("Ok");
                 }
                 ModelState.AddModelError("", "Порожнє повідомлення");
             }
-            return RedirectToAction($"Dialogue/{conversationId}", "Conversations");
+            return Json("Error");
         }
 
         public ViewResult List()
@@ -68,7 +95,7 @@ namespace SocialNetwork.Controllers
             ConversationsListViewModel obj = new ConversationsListViewModel();
             var user = _usersGetter.GetForUserName(User.Identity.Name);
             var conversations = _conversationsGetter.GetFromUser(User.Identity.Name);
-
+            
             IEnumerable<Conversation> result = conversations.
                 Select(c => _conversationsGetter.GetForId(c.Id));
 
@@ -79,9 +106,24 @@ namespace SocialNetwork.Controllers
             result.Where(c => c is Dialogue).ToList()
                 .ForEach(c => c.Image = c.Members.Select(uc => uc.User)
                 .Where(u => u.UserName != user.UserName).FirstOrDefault()?.Image);
-            obj.conversations = result;
+
+            var dictionary = new Dictionary<Conversation, int>();
+            foreach (Conversation conv in result)
+            {
+                dictionary.Add(conv, _messagesGetter.GetNotReadForUserAndConversation(user.Id, conv.Id).Count());
+            }
+
+            obj.conversations = dictionary;
             obj.user = user;
             return View(obj);
         }
+
+        public int GetNotReadConversationsCount()
+        {
+            var user = _usersGetter.GetForUserName(User.Identity.Name);
+
+            int notReadConversationsCount = _conversationsGetter.GetNotReadForUser(user.Id).Count();
+            return notReadConversationsCount;
+        } 
     }
 }

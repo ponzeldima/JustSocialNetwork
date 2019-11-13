@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191107120124_del_cascade")]
+    partial class del_cascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,8 +142,9 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Data.Models.Conversations.Conversation", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatingTime")
                         .ValueGeneratedOnAdd()
@@ -169,10 +172,11 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Data.Models.Messages.Message", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("ConversationId");
+                    b.Property<int>("ConversationId");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -275,7 +279,7 @@ namespace SocialNetwork.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<Guid>("ConversationId");
+                    b.Property<int>("ConversationId");
 
                     b.HasKey("UserId", "ConversationId");
 
@@ -286,7 +290,7 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Data.Models.UserMessage", b =>
                 {
-                    b.Property<Guid>("MessageId");
+                    b.Property<int>("MessageId");
 
                     b.Property<string>("UserId");
 

@@ -16,7 +16,7 @@ namespace SocialNetwork.Data.Mocks
             new Dialogue()
         };
 
-        public Conversation GetForId(int id)
+        public Conversation GetForId(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -27,6 +27,11 @@ namespace SocialNetwork.Data.Mocks
         }
 
         public IEnumerable<Conversation> GetFromUser(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Conversation> GetNotReadForUser(string userId)
         {
             throw new NotImplementedException();
         }

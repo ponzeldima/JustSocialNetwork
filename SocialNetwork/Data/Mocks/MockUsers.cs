@@ -30,7 +30,7 @@ namespace SocialNetwork.Data.Mocks
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetFromConversation(int convId)
+        public IEnumerable<User> GetFromConversation(Guid convId)
         {
             throw new NotImplementedException();
         }

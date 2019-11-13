@@ -23,7 +23,7 @@ namespace SocialNetwork.Data.Repositories
                 .Include(c => c.Messages)
                     .ThenInclude(m => m.Sender);
 
-        public Conversation GetForId(int id)
+        public Conversation GetForId(Guid id)
         {
             return AllConversations.FirstOrDefault(c => c.Id == id);
         }
@@ -43,6 +43,21 @@ namespace SocialNetwork.Data.Repositories
             var conversations = users.Where(u => u.UserName == name)
                 .SelectMany(u => u.Conversations)
                 .Select(uc => uc.Conversation);
+
+            return conversations;
+        }
+
+        public IEnumerable<Conversation> GetNotReadForUser(string userId)
+        {
+            var userMessage = _appDBContent.UserMessages
+                .Include(um => um.Message)
+                    .ThenInclude(m => m.Conversation);
+
+            var conversations = userMessage
+                .Where(um => um.UserId == userId && !um.IsRead)
+                .Select(um => um.Message)
+                .Select(m => m.Conversation)
+                .Distinct();
 
             return conversations;
         }

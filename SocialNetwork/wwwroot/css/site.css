@@ -12,9 +12,14 @@ body {
 
 
 
-.body-content{
+.body-content {
     min-height: 600px;
 }
+
+.isNotReaded{
+    background-color:lightblue;
+}
+
 .message-ava{
     height: 30px;
     width: 30px;
@@ -25,8 +30,4 @@ footer {
     background-color: cadetblue;
 }
 
-.main {
-}
 
-.sidebar {
-}
