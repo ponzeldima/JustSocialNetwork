@@ -11,7 +11,7 @@
         <div class="row mh-100">
             @Html.Partial("Structure/LeftBar")
             <hr />
-            <div class="col-md-9 bg-light main">
+            <div id="right_bar" class="col-md-9 main ">
                 @RenderBody()
             </div>
             <hr />
@@ -24,4 +24,34 @@
     @Html.Partial("Structure/Scripts")
     @RenderSection("Scripts", required: false)
 </body>
+
+<script>
+    @{ string authorize = "false";
+        if (!(User.Identity.Name is null))
+        {
+            authorize = "true";
+        }
+    }
+    let linkToProfile = "#";
+    let image = "https://www.meme-arsenal.com/memes/7bdea6754f999b50e9577596f09197fb.jpg";
+    if (@authorize) {
+        $.ajax({
+            type: "GET",
+            url: "/Users/GetUserIdentifiers/",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                image = data.user.image;
+                linkToProfile = "/Users/Profile/" + data.user.id;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+    $("#nav_avatar").attr("src", image);
+    $("#nav_profile_link").attr("href", linkToProfile);
+    $("#left_bar_home_page").attr("href", linkToProfile);
+</script>
 </html>

@@ -23,9 +23,9 @@ namespace SocialNetwork.Data.Repositories
                 .ThenInclude(uc => uc.Conversation)
             .Include(m => m.Messages);
 
-        public User GetForId(int id)
+        public User GetForId(string id)
         {
-            throw new NotImplementedException();
+            return AllUsers.FirstOrDefault(u => u.Id == id);
         }
 
         public User GetForUserName(string name)

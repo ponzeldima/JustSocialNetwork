@@ -1,0 +1,54 @@
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = Model.User.FirstName + " " + Model.User.LastName;
+}
+
+<div id="profile" class="row" >
+    <div id="profile_left_part" class="col p-1  d-inline-block h-100 " style="min-height:100px">
+        <div id="profile_photo_panel" class=" p-3 m-2 dark_panel" >
+            <img src="@Model.User.Image" alt="@Model.User.FirstName @Model.User.LastName"
+                 class="pb-1" style="max-width:100%; max_height:400%;" />
+            <button id="write_message" class=" bg-danger btn mt-1 w-100 text-white value="Написати повідомлення">Написати повідомлення</button>
+            <button id="add_to_friends" class="bg-danger btn mt-1 w-100 text-white" value="Додати в друзі">Додати в друзі</button>
+        </div>
+        <div id="profile_friends" class="dark_panel p-1 m-2 row">
+            <a href="#">
+                <div>Friends - @Model.Friends.Count</div>
+            </a>
+            <div class="row m-1">
+                @{
+                    foreach (User user in Model.Friends)
+                    {
+                        @Html.Partial("PartialViews/UserSmall", user)
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+    <div id="profile_right_part" class="col-8 bg-primary p-1 m-1 d-inline-block h-50" style="min-height:50px">
+        RightRight
+        <br />
+        Right
+        Right
+        Right
+        Right
+        <br />
+        Right
+        Right
+        Right
+        Right
+        <br />
+        Right
+        Right
+        Right
+        Right
+        <br />
+        Right
+        Right
+        Right
+        Right
+        Right
+    </div>
+</div>
+

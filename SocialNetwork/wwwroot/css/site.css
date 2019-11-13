@@ -10,8 +10,14 @@ body {
     background-size: cover;
 }
 
+#right_bar {
+    background-color:transparent;
+}
 
-
+.dark_panel {
+    background-color: #262c36;
+    color: white;
+}
 .body-content {
     min-height: 600px;
 }

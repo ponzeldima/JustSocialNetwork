@@ -15,7 +15,7 @@ namespace SocialNetwork.Data.Mocks
             new User("Slava", "Ponzel", "yaroslavponzel", "+380992276091"){ Image = "/image/Slava.jpg"}
         };
 
-        public User GetForId(int id)
+        public User GetForId(string id)
         {
             throw new NotImplementedException();
         }

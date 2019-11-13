@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.ViewModels
 {
-    public class UserIdentifiersViewModel
+    public class UserProfileViewModel
     {
         public User User { get; set; }
+        public List<User> Friends { get; set; }
+        public string UserId { get; set; }
     }
 }
