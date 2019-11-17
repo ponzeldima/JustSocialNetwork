@@ -17,11 +17,12 @@ namespace SocialNetwork.Data.Repositories
         {
             _appDBContent = appDBContent;
         }
-        public IEnumerable<Conversation> AllConversations => 
+        public IEnumerable<Conversation> AllConversations =>
             _appDBContent.Conversations
                 .Include(c => c.Members)
                 .Include(c => c.Messages)
-                    .ThenInclude(m => m.Sender);
+                    .ThenInclude(m => m.Sender)
+                        .ThenInclude(u => u.Images);
 
         public Conversation GetForId(Guid id)
         {

@@ -22,7 +22,8 @@ namespace SocialNetwork.Data.DB
                 content.Conversations.AddRange(Conversations.Select(c => c.Value));
             if (!content.Messages.Any())
                 content.Messages.AddRange(Messages);
-
+            if (!content.Images.Any())
+                content.Images.AddRange(Images.Select(i => i.Value));
             //content.SaveChanges();
 
 
@@ -147,13 +148,16 @@ namespace SocialNetwork.Data.DB
                     var list = new User[]
                     {
                         new User("Dima", "Ponzel", "ponzel.dima35", "+380507854882") {
-                            Image = "/image/Dima.jpg", Email = "ponzel.dima35@gmail.com",
+                            DayOfBirth = new DateTime(2000, 09, 22), Settlement = "Kyiv",
+                            Email = "ponzel.dima35@gmail.com",
                             Password = "1231231", Role = Roles["admin"]},
                         new User("Misha", "Povh", "povhmisha", "+380507854112") {
-                            Image = "/image/Misha.jpg", Email = "povhmisha@gmail.com",
+                            DayOfBirth = new DateTime(2000, 05, 08), Settlement = "Kyiv",
+                            Email = "povhmisha@gmail.com",
                             Password = "1", Role = Roles["admin"]},
                         new User("Slava", "Ponzel", "yaroslavponzel", "+380992276091") {
-                            Image = "/image/Slava.jpg", Email = "yaroslavponzel@gmail.com",
+                            DayOfBirth = new DateTime(1998, 01, 28), Settlement = "Kyiv",
+                            Email = "yaroslavponzel@gmail.com",
                             Password = "1", Role = Roles["user"]}
                     };
 
@@ -162,6 +166,28 @@ namespace SocialNetwork.Data.DB
                         users.Add(user.UserName, user);
                 }
                 return users;
+            }
+        }
+
+        public static Dictionary<string, Image> images;
+        public static Dictionary<string, Image> Images
+        {
+            get
+            {
+                if (images is null)
+                {
+                    var list = new Image[]
+                    {
+                        new Image(){IsAva = true, Path = "/image/Dima2.jpg", User = Users["ponzel.dima35"]},
+                        new Image(){IsAva = false, Path = "/image/Dima1.jpg", User = Users["ponzel.dima35"]},
+                        new Image(){IsAva = false, Path = "/image/Dima.jpg", User = Users["ponzel.dima35"]},
+                        new Image(){IsAva = true, Path = "/image/Misha.jpg", User = Users["povhmisha"]},
+                        new Image(){IsAva = true, Path = "/image/Slava.jpg", User = Users["yaroslavponzel"]}
+                    };
+
+                    images = list.ToDictionary(i => i.Path);
+                }
+                return images;
             }
         }
     }

@@ -9,13 +9,9 @@ namespace SocialNetwork.Data.Mocks
 {
     public class MockUsers : IUsersGetter
     {
-        public IEnumerable<User> AllUsers => new List<User> {
-            new User("Dima", "Ponzel", "ponzel.dima35", "+380507854882"){ Image = "/image/Dima.jpg"},
-            new User("Misha", "Povh", "povhmisha", "+380507854112"){ Image = "/image/Misha.jpg"},
-            new User("Slava", "Ponzel", "yaroslavponzel", "+380992276091"){ Image = "/image/Slava.jpg"}
-        };
+        public IEnumerable<User> AllUsers => throw new NotImplementedException();
 
-        public User GetForId(int id)
+        public User GetForId(string id)
         {
             throw new NotImplementedException();
         }

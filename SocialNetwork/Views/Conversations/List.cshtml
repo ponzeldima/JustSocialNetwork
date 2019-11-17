@@ -15,8 +15,8 @@
         foreach (var item in Model.conversations)
         {
 
-            <img src="@item.Key.Image" style="width:50px" alt="Alternate Text" />
-            <a href="Dialogue/@item.Key.Id">@item.Key.Name</a>
+            <img src="@item.Key.Image.Path" style="width:50px" alt="Alternate Text" />
+            <a href="~/Conversations/Dialogue/@item.Key.Id">@item.Key.Name</a>
             if (item.Value != 0)
             {
                 <p class="bg-warning text-light">@item.Value</p>
