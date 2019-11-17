@@ -1,0 +1,101 @@
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = Model.User.FirstName + " " + Model.User.LastName;
+}
+
+<div id="profile" class="row" >
+    <div id="profile_left_part" class="col p-1  d-inline-block  " style="min-height:100px">
+        <div id="profile_photo_panel" class=" p-3 m-2 dark_panel" >
+            <img src="@Model.User.AvaImage.Path" alt="@Model.User.FirstName @Model.User.LastName"
+                 class="pb-1" style="max-width:100%; max_height:400%;" />
+            <button id="write_message" class=" bg-danger btn mt-1 w-100 text-white value="Написати повідомлення">Написати повідомлення</button>
+            <button id="add_to_friends" class="bg-danger btn mt-1 w-100 text-white" value="Додати в друзі">Додати в друзі</button>
+        </div>
+        <div id="profile_friends" class="dark_panel p-1 m-2 row">
+            <a href="#">
+                <div>Friends - @Model.Friends.Count</div>
+            </a>
+            <div class="row m-1 w-100">
+                @{
+                    foreach (User user in Model.Friends)
+                    {
+                        @Html.Partial("PartialViews/UserSmall", user)
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+    <div id="profile_right_part" class="col-8 p-1 d-inline-block " style="min-height:50px">
+        <div id="profile_info_panel" class="p-3 m-2 dark_panel">
+            <div style="border-bottom: 1px solid #414b5c;">
+                <p class="float-right">Online</p>
+                <div class="">
+                    <h1 class="mb-0">@Model.User.FirstName @Model.User.LastName</h1>
+                    <p class="pl-2">Статус</p>
+                </div>
+            </div>
+
+            <div id="profile_detail_inf" class="mt-4">
+                <div class="row">
+                    <p class="col-5">Дата народження:</p>
+                    <p class="col-7">@Model.User.DayOfBirth.ToString("dd MMMM yyyy") р.</p>
+                    <div class="w-100"></div>
+
+                    <p class="col-5">Місто:</p>
+                    <p class="col-7">@Model.User.Settlement</p>
+                    <div class="w-100"></div>
+                </div>
+                <p style="text-align: center;">Детальна інформація</p>
+            </div>
+
+            <div id="profile_info_panel_counts" class="row pt-3 justify-content-md-center" style="border-top: 1px solid #414b5c; text-align: center;">
+                <div class="col-2">
+                    <h4>@Model.Friends.Count()</h4>
+                    <p>друзі</p>
+                </div>
+                <div class="col-2">
+                    <h4>@Model.Friends.Count()</h4>
+                    <p>підписники</p>
+                </div>
+                <div class="col-2">
+                    <h4>1</h4>
+                    <p>cвітлини</p>
+                </div>
+                <div class="col-2">
+                    <h4>0</h4>
+                    <p>аудіо</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile_photos_panel" class="p-3 m-2 dark_panel">
+            <div>
+                <p>Мої світлини <span>1</span></p>
+            </div>
+            <div class="row mx-0">
+                @{
+                    foreach (Image image in Model.User.Images)
+                    {
+                        <div class="col-3 px-1">
+                            <img src="@image.Path" alt="User Photo"
+                                 style="max-width:100%; max_height:100%;" />
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div id="profile_new_post_panel" class="p-3 m-2 dark_panel">
+            <div class="row m-0">
+                <div class="">
+                    <img src="@Model.User.AvaImage.Path" alt="User Photo"
+                         class="very_small_user_image " />
+                </div>
+                    <input type="text" name="text" value="Що нового?" 
+                       class="col-8 mx-1"/>
+            </div>
+        </div>
+    </div>
+</div>
+

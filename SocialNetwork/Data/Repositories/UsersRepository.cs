@@ -19,13 +19,14 @@ namespace SocialNetwork.Data.Repositories
 
         public IEnumerable<User> AllUsers =>
             _appDBContent.Users
-            .Include(m => m.Conversations)
+            .Include(u => u.Conversations)
                 .ThenInclude(uc => uc.Conversation)
-            .Include(m => m.Messages);
+            .Include(u => u.Messages)
+            .Include(u => u.Images);
 
-        public User GetForId(int id)
+        public User GetForId(string id)
         {
-            throw new NotImplementedException();
+            return AllUsers.FirstOrDefault(u => u.Id == id);
         }
 
         public User GetForUserName(string name)

@@ -10,7 +10,62 @@ body {
     background-size: cover;
 }
 
+#right_bar {
+    background-color:transparent;
+}
 
+input {
+    background-color: #262c36;
+    color: #bac8de;
+    border: none;
+}
+
+.dark_panel{
+    background-color: #262c36;
+    color: white;
+    border: 1px solid #414b5c;
+    border-radius: 5px;
+}
+
+    .dark_panel input {
+        background-color: #262c36;
+        color: #bac8de;
+        border: 1px solid #bac8de;
+    }
+
+.small_user_image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.very_small_user_image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+/*User profile page*/
+
+#profile_info_panel_counts h4{
+    margin-bottom: 0px;
+    color: #bac8de;
+}
+
+#profile_right_part h1 {
+    color: #53966e;
+}
+#profile_info_panel_counts p {
+    margin-bottom: 0px;
+}
+#profile_info_panel_counts > div {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#profile_detail_inf p.col-7 {
+    color: #bac8de;
+}
 
 .body-content {
     min-height: 600px;
