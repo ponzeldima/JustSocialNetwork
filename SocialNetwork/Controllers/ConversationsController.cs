@@ -105,7 +105,7 @@ namespace SocialNetwork.Controllers
 
             result.Where(c => c is Dialogue).ToList()
                 .ForEach(c => c.Image = c.Members.Select(uc => uc.User)
-                .Where(u => u.UserName != user.UserName).FirstOrDefault()?.Image);
+                .Where(u => u.UserName != user.UserName).FirstOrDefault()?.AvaImage);
 
             var dictionary = new Dictionary<Conversation, int>();
             foreach (Conversation conv in result)

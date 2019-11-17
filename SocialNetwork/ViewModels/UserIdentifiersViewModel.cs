@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Data.Models;
+using SocialNetwork.Data.Models.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace SocialNetwork.ViewModels
 {
     public class UserIdentifiersViewModel
     {
-        public User User { get; set; }
+        public string UserId { get; set; }
+        public string UserImagePath { get; set; }
     }
 }

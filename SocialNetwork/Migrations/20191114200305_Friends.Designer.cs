@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191114200305_Friends")]
+    partial class Friends
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,6 +151,8 @@ namespace SocialNetwork.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
+
+                    b.Property<string>("Image");
 
                     b.Property<string>("Name");
 

@@ -41,10 +41,12 @@
             dataType: "json",
             async: false,
             success: function (data) {
-                image = data.user.image;
-                linkToProfile = "/Users/Profile/" + data.user.id;
+                //alert(data.userimagepath);
+                image = data.userImagePath;
+                linkToProfile = "/Users/Profile/" + data.userId;
             },
             error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.statusText);
                 alert(xhr.status);
                 alert(thrownError);
             }

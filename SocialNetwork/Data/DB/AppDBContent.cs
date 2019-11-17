@@ -23,6 +23,7 @@ namespace SocialNetwork.Data.DB
         public DbSet<Dialogue> Dialogues { get; set; }
         public DbSet<UserConversation> UserConversations { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +34,16 @@ namespace SocialNetwork.Data.DB
             modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.UserName).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.CreatedAt)
+                .HasDefaultValueSql("GETDATE()");
+
+            //modelBuilder.Entity<Image>()
+            //    .HasOne(i => i.User)
+            //    .WithMany(u => u.Images)
+            //    .HasForeignKey(i => i.UserId);
+
+
 
             modelBuilder.Entity<Message>()
                 .Property(m => m.SendTime)
@@ -41,6 +52,7 @@ namespace SocialNetwork.Data.DB
             modelBuilder.Entity<Conversation>()
                 .Property(m => m.CreatingTime)
                 .HasDefaultValueSql("GETDATE()");
+                
 
             modelBuilder.Entity<Conversation>().HasIndex(c => c.NickName).IsUnique();
             modelBuilder.Entity<Conversation>().Property(c => c.NickName).IsRequired();

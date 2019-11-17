@@ -17,7 +17,7 @@
 }
 
 <div class="p-1 rounded-lg w-100 @isNotReaded ">
-    <img class="rounded-circle my-1 @imgClasses message-ava" src="@Model.message.Sender.Image" alt="@Model.message.Sender.UserName" />
+    <img class="rounded-circle my-1 @imgClasses message-ava" src="@Model.message.Sender.AvaImage.Path" alt="@Model.message.Sender.UserName" />
     <div class="p-1 my-1 @divClasses text-white">
         @Model.message.Text
     </div>

@@ -6,7 +6,7 @@
 <div id="profile" class="row" >
     <div id="profile_left_part" class="col p-1  d-inline-block  " style="min-height:100px">
         <div id="profile_photo_panel" class=" p-3 m-2 dark_panel" >
-            <img src="@Model.User.Image" alt="@Model.User.FirstName @Model.User.LastName"
+            <img src="@Model.User.AvaImage.Path" alt="@Model.User.FirstName @Model.User.LastName"
                  class="pb-1" style="max-width:100%; max_height:400%;" />
             <button id="write_message" class=" bg-danger btn mt-1 w-100 text-white value="Написати повідомлення">Написати повідомлення</button>
             <button id="add_to_friends" class="bg-danger btn mt-1 w-100 text-white" value="Додати в друзі">Додати в друзі</button>
@@ -39,11 +39,11 @@
             <div id="profile_detail_inf" class="mt-4">
                 <div class="row">
                     <p class="col-5">Дата народження:</p>
-                    <p class="col-7">22 вересня 2000 р.</p>
+                    <p class="col-7">@Model.User.DayOfBirth.ToString("dd MMMM yyyy") р.</p>
                     <div class="w-100"></div>
 
                     <p class="col-5">Місто:</p>
-                    <p class="col-7">Київ</p>
+                    <p class="col-7">@Model.User.Settlement</p>
                     <div class="w-100"></div>
                 </div>
                 <p style="text-align: center;">Детальна інформація</p>
@@ -74,29 +74,22 @@
                 <p>Мої світлини <span>1</span></p>
             </div>
             <div class="row mx-0">
-                <div class="col-3 px-1">
-                    <img src="@Model.User.Image" alt="User Photo"
-                         style="max-width:100%; max_height:100%;" />
-                </div>
-                <div class="col-3 px-1">
-                    <img src="@Model.User.Image" alt="User Photo"
-                         style="max-width:100%; max_height:100%;" />
-                </div>
-                <div class="col-3 px-1">
-                    <img src="@Model.User.Image" alt="User Photo"
-                         style="max-width:100%; max_height:100%;" />
-                </div>
-                <div class="col-3 px-1">
-                    <img src="@Model.User.Image" alt="User Photo"
-                         style="max-width:100%; max_height:100%;" />
-                </div>
+                @{
+                    foreach (Image image in Model.User.Images)
+                    {
+                        <div class="col-3 px-1">
+                            <img src="@image.Path" alt="User Photo"
+                                 style="max-width:100%; max_height:100%;" />
+                        </div>
+                    }
+                }
             </div>
         </div>
 
         <div id="profile_new_post_panel" class="p-3 m-2 dark_panel">
             <div class="row m-0">
                 <div class="">
-                    <img src="@Model.User.Image" alt="User Photo"
+                    <img src="@Model.User.AvaImage.Path" alt="User Photo"
                          class="very_small_user_image " />
                 </div>
                     <input type="text" name="text" value="Що нового?" 

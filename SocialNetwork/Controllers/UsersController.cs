@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SocialNetwork.ViewModels;
 using SocialNetwork.Data.Models;
 using SocialNetwork.Data.DB;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SocialNetwork.Controllers
 {
@@ -36,11 +37,20 @@ namespace SocialNetwork.Controllers
             return View(obj);
         }
 
+        [Authorize(Roles = "admin")]
+        public IActionResult AllUsers()
+        {
+            var users = _usersGetter.AllUsers;
+            IEnumerable<User> result = users.Where(u => u.UserName != User.Identity.Name).ToList();
+            return View(result);
+        }
+
         public UserIdentifiersViewModel GetUserIdentifiers()
         {
-            User user = _db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            User user = _usersGetter.GetForUserName(User.Identity.Name);
             UserIdentifiersViewModel obj = new UserIdentifiersViewModel();
-            obj.User = user;
+            obj.UserId = user.Id;
+            obj.UserImagePath = user.Images.FirstOrDefault(i => i.IsAva).Path;
             return obj;
         }
     }
