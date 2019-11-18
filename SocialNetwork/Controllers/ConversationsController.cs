@@ -73,8 +73,7 @@ namespace SocialNetwork.Controllers
             GC.WaitForPendingFinalizers();
             if (ModelState.IsValid)
             {
-                
-                if (model.text != "" && !(model.text is null))
+                if (!(model.text is null)&& model.text.Trim() != "")
                 {
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
                     Conversation conversation = _conversationsGetter.GetForId(model.conversationId );
