@@ -45,6 +45,28 @@ input {
     border-radius: 50%;
 }
 
+/*Scroll*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #414b5c;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #262c36;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #202c36;
+}
+
 /*User profile page*/
 
 #profile_info_panel_counts h4{
@@ -71,6 +93,9 @@ input {
     min-height: 600px;
 }
 
+
+/*Messages*/
+
 .isNotReaded{
     background-color:lightblue;
 }
@@ -79,6 +104,28 @@ input {
     height: 30px;
     width: 30px;
     
+}
+
+.name_above_message {
+    color: #ffdc85;
+    font-size: 11px;
+    margin-bottom: 0px;
+}
+
+.send_time_of_message {
+    padding: 0px;
+}
+
+.send_time_of_message p {
+    color: #bac8de;
+    font-size: 10px;
+    margin: 0px;
+    text-align: right;
+}
+
+#message_board {
+    overflow-y: scroll;
+    max-height: 65vh;
 }
 
 footer {

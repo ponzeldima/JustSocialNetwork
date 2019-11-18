@@ -19,6 +19,7 @@ namespace SocialNetwork.Data.Repositories
         }
         public IEnumerable<Conversation> AllConversations =>
             _appDBContent.Conversations
+                .Include(c => c.Image)
                 .Include(c => c.Members)
                 .Include(c => c.Messages)
                     .ThenInclude(m => m.Sender)

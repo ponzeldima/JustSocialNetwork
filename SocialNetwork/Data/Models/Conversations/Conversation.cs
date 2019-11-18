@@ -13,7 +13,6 @@ namespace SocialNetwork.Data.Models.Conversations
         public Guid Id { get; set; }
         public string NickName { get; set; }
         public string Name { get; set; }
-        [NotMapped]
         public Image Image { get;  set; }
         public List<Message> Messages { get; set; }
         public List<UserConversation> Members { get;  set; }

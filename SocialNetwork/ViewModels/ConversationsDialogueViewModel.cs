@@ -10,7 +10,7 @@ namespace SocialNetwork.ViewModels
 {
     public class ConversationsDialogueViewModel
     {
-        public Dialogue dialogue { get; set; }
+        public Conversation conversation { get; set; }
         public IEnumerable<Message> notReadedMessages { get; set; }
         public IEnumerable<Message> notReadedMessagesForAnotherUser { get; set; }
         public User user { get; set; }

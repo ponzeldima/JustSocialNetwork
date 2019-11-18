@@ -11,6 +11,8 @@ namespace SocialNetwork.Data.Models
     {
         public Guid Id { get; set; }
         public string Path { get; set; }
+        public Guid ConversationId { get; set; }
+        public Conversation Conversation { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
         public bool IsAva { get; set; }

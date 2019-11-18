@@ -21,6 +21,7 @@ namespace SocialNetwork.Data.DB
         public DbSet<TextMessage> TextMessages { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Dialogue> Dialogues { get; set; }
+        public DbSet<Polylogist> Polylogists { get; set; }
         public DbSet<UserConversation> UserConversations { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
         public DbSet<Image> Images { get; set; }
@@ -38,10 +39,10 @@ namespace SocialNetwork.Data.DB
                 .Property(u => u.CreatedAt)
                 .HasDefaultValueSql("GETDATE()");
 
-            //modelBuilder.Entity<Image>()
-            //    .HasOne(i => i.User)
-            //    .WithMany(u => u.Images)
-            //    .HasForeignKey(i => i.UserId);
+            modelBuilder.Entity<Image>()
+                .HasOne(i => i.Conversation)
+                .WithOne(c => c.Image)
+                .IsRequired(false);
 
 
 
