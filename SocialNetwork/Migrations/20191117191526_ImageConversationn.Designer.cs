@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Data.DB;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191117191526_ImageConversationn")]
+    partial class ImageConversationn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,8 +174,6 @@ namespace SocialNetwork.Migrations
 
                     b.Property<Guid>("ConversationId");
 
-                    b.Property<Guid?>("ConversationId1");
-
                     b.Property<bool>("IsAva");
 
                     b.Property<string>("Path");
@@ -182,9 +182,8 @@ namespace SocialNetwork.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConversationId1")
-                        .IsUnique()
-                        .HasFilter("[ConversationId1] IS NOT NULL");
+                    b.HasIndex("ConversationId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -420,7 +419,8 @@ namespace SocialNetwork.Migrations
                 {
                     b.HasOne("SocialNetwork.Data.Models.Conversations.Conversation", "Conversation")
                         .WithOne("Image")
-                        .HasForeignKey("SocialNetwork.Data.Models.Image", "ConversationId1");
+                        .HasForeignKey("SocialNetwork.Data.Models.Image", "ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SocialNetwork.Data.Models.User", "User")
                         .WithMany("Images")

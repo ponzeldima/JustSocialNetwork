@@ -26,18 +26,32 @@ namespace SocialNetwork.Data.DB
                 content.Images.AddRange(Images.Select(i => i.Value));
             //content.SaveChanges();
 
+            //content.Images.Add(new Image() { IsAva = true, Path = "/image/Dima2.jpg", User = null,
+            //    Conversation = content.Conversations.FirstOrDefault(c => c.NickName == "povhmisha - ponzel.dima35")
+            //});
 
             User dima = Users["ponzel.dima35"];
             User misha = Users["povhmisha"];
             User slava = Users["yaroslavponzel"];
+            User angelina = Users["angelkotik"];
 
             Conversation m_d = Conversations["povhmisha - ponzel.dima35"];
             Conversation d_y = Conversations["ponzel.dima35 - yaroslavponzel"];
+            Conversation m_a = Conversations["povhmisha - angelkotik"];
+            Conversation violinists = Conversations["violinists (tipa)"];
+
+            //violinists.Image = Images["/image/Violinists.jpg"];
 
             dima.Conversations.Add(new UserConversation { UserId = dima.Id, ConversationId = m_d.Id });
             dima.Conversations.Add(new UserConversation { UserId = dima.Id, ConversationId = d_y.Id });
             misha.Conversations.Add(new UserConversation { UserId = misha.Id, ConversationId = m_d.Id });
             slava.Conversations.Add(new UserConversation { UserId = slava.Id, ConversationId = d_y.Id });
+
+            misha.Conversations.Add(new UserConversation { UserId = misha.Id, ConversationId = m_a.Id });
+            misha.Conversations.Add(new UserConversation { UserId = misha.Id, ConversationId = violinists.Id });
+            dima.Conversations.Add(new UserConversation { UserId = dima.Id, ConversationId = violinists.Id });
+            angelina.Conversations.Add(new UserConversation { UserId = angelina.Id, ConversationId = violinists.Id });
+            angelina.Conversations.Add(new UserConversation { UserId = angelina.Id, ConversationId = m_a.Id });
 
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[0].Id, IsRead = true });
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[1].Id, IsRead = true });
@@ -50,6 +64,9 @@ namespace SocialNetwork.Data.DB
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[8].Id, IsRead = true });
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[9].Id, IsRead = true });
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[10].Id, IsRead = false });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[12].Id, IsRead = false });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[13].Id, IsRead = false });
+            dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[14].Id, IsRead = true });
 
             misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[0].Id, IsRead = true });
             misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[1].Id, IsRead = true });
@@ -60,9 +77,19 @@ namespace SocialNetwork.Data.DB
             misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[6].Id, IsRead = true });
             misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[7].Id, IsRead = true });
             misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[8].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[11].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[12].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[13].Id, IsRead = true });
+            misha.VisibleMessages.Add(new UserMessage { UserId = misha.Id, MessageId = Messages[14].Id, IsRead = true });
 
             slava.VisibleMessages.Add(new UserMessage { UserId = slava.Id, MessageId = Messages[9].Id, IsRead = true });
             slava.VisibleMessages.Add(new UserMessage { UserId = slava.Id, MessageId = Messages[10].Id, IsRead = true });
+
+            angelina.VisibleMessages.Add(new UserMessage { UserId = angelina.Id, MessageId = Messages[11].Id, IsRead = true });
+            angelina.VisibleMessages.Add(new UserMessage { UserId = angelina.Id, MessageId = Messages[12].Id, IsRead = true });
+            angelina.VisibleMessages.Add(new UserMessage { UserId = angelina.Id, MessageId = Messages[13].Id, IsRead = true });
+            angelina.VisibleMessages.Add(new UserMessage { UserId = angelina.Id, MessageId = Messages[14].Id, IsRead = true });
+
             content.SaveChanges();
         }
 
@@ -76,7 +103,9 @@ namespace SocialNetwork.Data.DB
                     var list = new Conversation[]
                     {
                         new Dialogue(){ NickName = "povhmisha - ponzel.dima35" },
-                        new Dialogue(){ NickName = "ponzel.dima35 - yaroslavponzel" }
+                        new Dialogue(){ NickName = "ponzel.dima35 - yaroslavponzel" },
+                        new Dialogue(){ NickName = "povhmisha - angelkotik" },
+                        new Polylogist(){ NickName = "violinists (tipa)", Name = "Скрипалі (тіпа)"}
                     };
 
                     conversations = new Dictionary<string, Conversation>();
@@ -127,7 +156,11 @@ namespace SocialNetwork.Data.DB
                         new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaaaaaa!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 51)},
                         new TextMessage(Users["povhmisha"], Conversations["povhmisha - ponzel.dima35"], "I am Mishaaaaaaaaaaaaa!"){ SendTime = new DateTime(2019, 10, 30, 16, 3, 52)},
                         new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!"){ SendTime = new DateTime(2019, 10, 30, 17, 2, 0)},
-                        new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)}
+                        new TextMessage(Users["yaroslavponzel"], Conversations["ponzel.dima35 - yaroslavponzel"], "Zdorovichko!"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)},
+                        new TextMessage(Users["angelkotik"], Conversations["povhmisha - angelkotik"], "Привіііт)"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)},
+                        new TextMessage(Users["angelkotik"], Conversations["violinists (tipa)"], "Привіііт)"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)},
+                        new TextMessage(Users["povhmisha"], Conversations["violinists (tipa)"], "hi)"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)},
+                        new TextMessage(Users["ponzel.dima35"], Conversations["violinists (tipa)"], "Hello)"){ SendTime = new DateTime(2019, 10, 30, 17, 4, 0)},
                     };
 
                     messages = new List<Message>();
@@ -158,6 +191,10 @@ namespace SocialNetwork.Data.DB
                         new User("Slava", "Ponzel", "yaroslavponzel", "+380992276091") {
                             DayOfBirth = new DateTime(1998, 01, 28), Settlement = "Kyiv",
                             Email = "yaroslavponzel@gmail.com",
+                            Password = "1", Role = Roles["user"]},
+                        new User("Angelina", "Kotkova", "angelkotik", "+380999999999") {
+                            DayOfBirth = new DateTime(1998, 01, 01), Settlement = "Kyiv",
+                            Email = "angelkotik@gmail.com",
                             Password = "1", Role = Roles["user"]}
                     };
 
@@ -182,7 +219,9 @@ namespace SocialNetwork.Data.DB
                         new Image(){IsAva = false, Path = "/image/Dima1.jpg", User = Users["ponzel.dima35"]},
                         new Image(){IsAva = false, Path = "/image/Dima.jpg", User = Users["ponzel.dima35"]},
                         new Image(){IsAva = true, Path = "/image/Misha.jpg", User = Users["povhmisha"]},
-                        new Image(){IsAva = true, Path = "/image/Slava.jpg", User = Users["yaroslavponzel"]}
+                        new Image(){IsAva = true, Path = "/image/Slava.jpg", User = Users["yaroslavponzel"]},
+                        new Image(){IsAva = true, Path = "/image/Angelina.jpg", User = Users["angelkotik"]},
+                        new Image(){IsAva = true, Path = "/image/Violinists.jpg" , Conversation = Conversations["violinists (tipa)"]}
                     };
 
                     images = list.ToDictionary(i => i.Path);

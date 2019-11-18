@@ -71,6 +71,9 @@ input {
     min-height: 600px;
 }
 
+
+/*Messages*/
+
 .isNotReaded{
     background-color:lightblue;
 }
@@ -79,6 +82,23 @@ input {
     height: 30px;
     width: 30px;
     
+}
+
+.name_above_message {
+    color: #ffdc85;
+    font-size: 11px;
+    margin-bottom: 0px;
+}
+
+.send_time_of_message {
+    padding: 0px;
+}
+
+.send_time_of_message p {
+    color: #bac8de;
+    font-size: 10px;
+    margin: 0px;
+    text-align: right;
 }
 
 footer {

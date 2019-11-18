@@ -11,6 +11,7 @@ namespace SocialNetwork.ViewModels
         public bool isUserMessage { get; set; }
         public bool isRead { get; set; }
         public bool isReadForAnotherUsers { get; set; }
+        public bool PreviousMessageFromThisUserToo { get; set; }
         public TextMessage message { get; set; }
     }
 }

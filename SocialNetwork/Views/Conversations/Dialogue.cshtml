@@ -1,26 +1,37 @@
 ﻿@model ConversationsDialogueViewModel
 @{
-    ViewData["Title"] = Model.dialogue.NickName;
+    ViewData["Title"] = GC.GetTotalMemory(false) / 1000;
 }
 
 
 <div class="p-2 w-100 bg-dark text-light">
     Dialogue
-    @Model.dialogue.Members.ToList()[0].User.FirstName - @Model.dialogue.Members.ToList()[1].User.FirstName
+    @Model.conversation.Members.ToList()[0].User.FirstName - @Model.conversation.Members.ToList()[1].User.FirstName
 
 </div>
 
 <div id="message_board" class="p-2 row justify-content-start">
     @{
-        foreach (TextMessage mes in Model.dialogue.Messages)
+        List<Message> mes = Model.conversation.Messages;
+        string nextSenderName = "";
+        for (int i = 0; i < mes.Count; i++)
         {
+            if(i == mes.Count - 1)
+            {
+                nextSenderName = "";
+            }
+            else
+            {
+                nextSenderName = mes[i + 1].Sender.UserName;
+            }
             @Html.Partial("TextMessage", new TextMessageViewModel()
-           {
-               message = mes,
-               isUserMessage = Model.user.Id == mes.Sender.Id,
-               isRead = !Model.notReadedMessages.Any(m => m.Id == mes.Id),
-               isReadForAnotherUsers = !Model.notReadedMessagesForAnotherUser.Any(m => m.Id == mes.Id)
-           });
+            {
+                message = (TextMessage)mes[i],
+                isUserMessage = Model.user.Id == mes[i].Sender.Id,
+                isRead = !Model.notReadedMessages.Any(m => m.Id == mes[i].Id),
+                isReadForAnotherUsers = !Model.notReadedMessagesForAnotherUser.Any(m => m.Id == mes[i].Id),
+                PreviousMessageFromThisUserToo = nextSenderName == mes[i].Sender.UserName
+            });
             <div class="w-100"></div>
         }
     }
@@ -39,8 +50,9 @@
 
 
 <script type="text/javascript">
+
     $(".isNotReaded").animate({
-        backgroundColor: "white"
+        backgroundColor: "transparent"
     }, 2000);
 
 
@@ -48,7 +60,7 @@
     var dataForRead = {
         model: {
             userId: "@Model.user.Id",
-            conversationId: "@Model.dialogue.Id",
+            conversationId: "@Model.conversation.Id",
         }
     };
 
@@ -81,7 +93,7 @@
             url: "/Conversations/SendMessage/",
             data: JSON.stringify({
                 text: $("#inputText").val(),
-                conversationId: "@Model.dialogue.Id",
+                conversationId: "@Model.conversation.Id",
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",

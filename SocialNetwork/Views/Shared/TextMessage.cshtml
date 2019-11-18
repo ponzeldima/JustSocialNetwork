@@ -7,7 +7,6 @@
     if (Model.isUserMessage)
     {
         divClasses = "mr-1 bg-success rounded-left float-right";
-        imgClasses = "mr-1 float-right";
     }
     else
     {
@@ -17,14 +16,35 @@
 }
 
 <div class="p-1 rounded-lg w-100 @isNotReaded ">
-    <img class="rounded-circle my-1 @imgClasses message-ava" src="@Model.message.Sender.AvaImage.Path" alt="@Model.message.Sender.UserName" />
+    @{
+        if (!Model.isUserMessage)
+        {
+            if (!Model.PreviousMessageFromThisUserToo)
+            {
+                <img class="rounded-circle my-1 @imgClasses message-ava" src="@Model.message.Sender.AvaImage.Path" alt="@Model.message.Sender.UserName" />
+            }
+            else
+            {
+                <div class="my-1 @imgClasses message-ava" style="background-color:transparent;"></div>
+            }
+
+        }
+    }
     <div class="p-1 my-1 @divClasses text-white">
-        @Model.message.Text
+        @{if (!Model.isUserMessage && !(Model.message.Conversation is Dialogue))
+            {
+                <div><p class="name_above_message">@Model.message.Sender.FirstName @Model.message.Sender.LastName</p></div>
+            }
+        }
+        <div class="row m-0" style="position:relative;">
+            <div class="mr-2">@Model.message.Text</div>
+            <div class="send_time_of_message col align-self-end"><p>@Model.message.SendTime.ToShortTimeString()</p></div>
+        </div>
     </div>
     @{
         if (!Model.isReadForAnotherUsers)
         {
-        <div class="notReadDot mr-2 my-3 p-1 align-bottom float-right bg-info rounded-circle"></div>
+            <div class="notReadDot mr-2 my-3 p-1 align-bottom float-right bg-info rounded-circle"></div>
         }
 
     }

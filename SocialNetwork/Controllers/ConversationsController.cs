@@ -32,15 +32,18 @@ namespace SocialNetwork.Controllers
         [HttpGet]
         public  IActionResult Dialogue(Guid id)
         {
+            //GC.Collect();
+            //GC.WaitForPendingFinalizers();
+
             ConversationsDialogueViewModel obj = new ConversationsDialogueViewModel();
             var user = _usersGetter.GetForUserName(User.Identity.Name); 
-            Dialogue dialogue = (Dialogue)_conversationsGetter.GetForId(id);
-            dialogue.Messages = dialogue.Messages.OrderBy(m => m.SendTime).ToList();
+            Conversation conversation = _conversationsGetter.GetForId(id);
+            conversation.Messages = conversation.Messages.OrderBy(m => m.SendTime).ToList();
             obj.user = user;
-            obj.dialogue = dialogue;
+            obj.conversation = conversation;
             obj.notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(user.Id, id)
                 .Select(um => um.Message);
-            obj.notReadedMessagesForAnotherUser = _messagesGetter.GetNotReadForAnotherUserInConversation(user.Id, dialogue.Id);
+            obj.notReadedMessagesForAnotherUser = _messagesGetter.GetNotReadForAnotherUserInConversation(user.Id, conversation.Id);
 
             return View(obj);
         }
@@ -50,13 +53,15 @@ namespace SocialNetwork.Controllers
         {
             var notReadedMessages = _messagesGetter.GetNotReadForUserAndConversation(model.userId, model.conversationId)
                 .Select(um => um.Message);
-
-            var notReadedMessagesForUser = _db.UserMessages.ToList();
-            notReadedMessagesForUser = notReadedMessagesForUser
-                .Where(um => um.UserId == model.userId && notReadedMessages.Any(m => m.Id == um.MessageId)).ToList();
-            notReadedMessagesForUser
-                .ForEach(um => um.IsRead = true);
-             _db.SaveChanges();
+            using (_db)
+            {
+                var notReadedMessagesForUser = _db.UserMessages.ToList();
+                notReadedMessagesForUser = notReadedMessagesForUser
+                    .Where(um => um.UserId == model.userId && notReadedMessages.Any(m => m.Id == um.MessageId)).ToList();
+                notReadedMessagesForUser
+                    .ForEach(um => um.IsRead = true);
+                _db.SaveChanges();
+            }
 
             return Json("Ok");
         }
@@ -64,6 +69,8 @@ namespace SocialNetwork.Controllers
         [HttpPost]
         public JsonResult SendMessage([FromBody]TextMessageSendViewModel model)
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             if (ModelState.IsValid)
             {
                 
@@ -72,16 +79,20 @@ namespace SocialNetwork.Controllers
                     User user = _usersGetter.GetForUserName(User.Identity.Name);
                     Conversation conversation = _conversationsGetter.GetForId(model.conversationId );
                     TextMessage message = new TextMessage(user, conversation, model.text);
-                    _db.Messages.Add(message);
-                    _db.SaveChanges();
-                    foreach (string userId in conversation.Members.Select(um => um.UserId))
+                    using (_db)
                     {
-                        if(userId != user.Id)
-                            message.VisibleFor.Add(new UserMessage { UserId = userId, MessageId = message.Id });
-                    }
-                    message.VisibleFor.Add(new UserMessage { UserId = user.Id, MessageId = message.Id, IsRead = true });
+                        _db.Messages.Add(message);
+                        _db.SaveChanges();
+                        foreach (string userId in conversation.Members.Select(um => um.UserId))
+                        {
+                            if (userId != user.Id)
+                                message.VisibleFor.Add(new UserMessage { UserId = userId, MessageId = message.Id });
+                        }
+                        message.VisibleFor.Add(new UserMessage { UserId = user.Id, MessageId = message.Id, IsRead = true });
 
-                    _db.SaveChanges(); // аутентификация
+                        _db.SaveChanges(); // аутентификация
+
+                    }
 
                     return Json("Ok");
                 }
@@ -92,6 +103,9 @@ namespace SocialNetwork.Controllers
 
         public ViewResult List()
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             ConversationsListViewModel obj = new ConversationsListViewModel();
             var user = _usersGetter.GetForUserName(User.Identity.Name);
             var conversations = _conversationsGetter.GetFromUser(User.Identity.Name);
