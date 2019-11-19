@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SocialNetwork.Controllers
 {
+    [Authorize]
     public class MessagesController : Controller
     {
         private readonly IMessagesGetter _messagesGetter;

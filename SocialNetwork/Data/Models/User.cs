@@ -38,8 +38,11 @@ namespace SocialNetwork.Data.Models
         public List<UserConversation> Conversations { get; set; }
         public List<Message> Messages { get; set; }
         public List<UserMessage> VisibleMessages { get; set; }
-        public List<User> SubscribedTo { get; set; }
-        public List<User> Subscribers { get; set; }
+        public List<UserUser> Readers { get; set; }
+        public List<UserUser> Followers { get; set; }
+        [NotMapped]
+        public List<User> Friends => Readers.Join(Followers, r => r.ReaderId, f => f.FollowerId, (r, f) => f.Follower).ToList();
+          
 
         public User() : base()
         {
@@ -47,8 +50,8 @@ namespace SocialNetwork.Data.Models
             Messages = new List<Message>();
             VisibleMessages = new List<UserMessage>();
             Images = new List<Image>();
-            SubscribedTo = new List<User>();
-            Subscribers = new List<User>();
+            Readers = new List<UserUser>();
+            Followers = new List<UserUser>();
         }
         public User(string firstName, string lastName, string userName, string password) : this()
         {

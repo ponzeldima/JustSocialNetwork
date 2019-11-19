@@ -27,11 +27,15 @@ input {
     border-radius: 5px;
 }
 
-    .dark_panel input {
-        background-color: #262c36;
-        color: #bac8de;
-        border: 1px solid #bac8de;
-    }
+.dark_panel h1 {
+    color: #53966e;
+}
+
+.dark_panel input {
+    background-color: #262c36;
+    color: #bac8de;
+    border: 1px solid #bac8de;
+}
 
 .small_user_image {
     width: 60px;

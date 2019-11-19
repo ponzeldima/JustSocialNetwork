@@ -1,0 +1,16 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Readers";
+}
+
+<div class="dark_panel row">
+    <h1>Readers</h1>
+    <div class="w-100"></div>
+    @{
+        foreach (UserUser userUser in Model.Readers)
+        {
+            @Html.Partial("User", userUser.Reader);
+        }
+    }
+</div>

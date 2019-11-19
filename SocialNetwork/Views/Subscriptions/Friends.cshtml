@@ -1,0 +1,17 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Friends";
+}
+
+<div class="dark_panel row">
+    <h1>Friends</h1>
+    <div class="w-100"></div>
+    @{
+        foreach (User friend in Model.Friends)
+        {
+            @Html.Partial("User", friend);
+        }
+    }
+</div>
+

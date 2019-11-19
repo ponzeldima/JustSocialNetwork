@@ -1,0 +1,17 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Followers";
+}
+
+<div class="dark_panel row">
+    <h1>Followers</h1>
+    <div class="w-100"></div>
+    @{
+        foreach (UserUser userUser in Model.Followers)
+        {
+            @Html.Partial("User", userUser.Follower);
+        }
+    }
+</div>
+

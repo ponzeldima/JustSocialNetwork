@@ -23,6 +23,8 @@ namespace SocialNetwork.Data.Repositories
                 .ThenInclude(uc => uc.Conversation)
             .Include(u => u.Messages)
             .Include(u => u.Images);
+            //.Include(u => u.Readers)
+            //    .ThenInclude(r => r.Images);
 
         public User GetForId(string id)
         {

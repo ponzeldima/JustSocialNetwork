@@ -25,6 +25,7 @@ namespace SocialNetwork.Data.DB
         public DbSet<UserConversation> UserConversations { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<UserUser> UserUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -91,6 +92,26 @@ namespace SocialNetwork.Data.DB
                 .WithMany(u => u.VisibleMessages)
                 .HasForeignKey(um => um.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<UserUser>()
+                .HasKey(uu => new { uu.ReaderId, uu.FollowerId });
+
+            modelBuilder.Entity<UserUser>()
+                .HasOne(uu => uu.Follower)
+                .WithMany(f => f.Readers)
+                .HasForeignKey(uu => uu.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserUser>()
+                .HasOne(uu => uu.Reader)
+                .WithMany(r => r.Followers)
+                .HasForeignKey(uu => uu.ReaderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserUser>()
+                .Property(m => m.SubscribedAt)
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }
