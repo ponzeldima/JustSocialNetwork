@@ -29,6 +29,25 @@ namespace SocialNetwork.Controllers
             _db = db;
         }
 
+        [HttpPost]
+        public Guid CreateDialogue([FromBody]string[] users)
+        {
+            string dialogueNickName = _usersGetter.GetUserNameByUserId(users[0]) + " - "
+                    + _usersGetter.GetUserNameByUserId(users[1]);
+            Dialogue newDialogue = new Dialogue() { NickName = dialogueNickName };
+
+            _db.Conversations.Add(newDialogue);
+            _db.SaveChanges();
+
+            Guid dialogueId = _conversationsGetter.GetForNickName(dialogueNickName).Id;
+            _db.UserConversations.Add(new UserConversation { UserId = users[0], ConversationId = dialogueId});
+            _db.UserConversations.Add(new UserConversation { UserId = users[1], ConversationId = dialogueId});
+            _db.SaveChanges();
+
+            return dialogueId;
+        }
+
+
         [HttpGet]
         public  IActionResult Dialogue(Guid id)
         {

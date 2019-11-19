@@ -31,10 +31,84 @@ input {
     color: #53966e;
 }
 
+.dark_panel h3 {
+    color: #14ff92;
+    font-size: 18px;
+}
+
 .dark_panel input {
     background-color: #262c36;
     color: #bac8de;
     border: 1px solid #bac8de;
+}
+
+.dark_panel img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.dark_panel a {
+    color: white;
+    text-decoration: none
+}
+
+.dark_panel button {
+    background-color: #11141f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 2px;
+}
+
+.dark_panel button:hover {
+    background-color: #14ff92;
+    color: #11141f;
+}
+
+.dark_panel button a:hover {
+    color: #11141f;
+}
+
+.dark_panel button:focus {
+    outline: none;
+}
+
+.dark_panel button:active {
+    background-color: #0bbf77;
+}
+
+
+    .dark_panel button.disable {
+        background-color: #384741;
+        color: white;
+    }
+
+
+
+.dark_panel button.important_btn {
+    background-color: #f03535;
+    color: white;
+}
+
+.dark_panel button.important_btn:hover {
+    background-color: #cc2b2b;
+}
+
+.dark_panel button.important_btn:active {
+    color: #402d2d;
+}
+
+.tab {
+    border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+    border-color: #79c7aa;
+}
+
+.tab:active {
+    border-color: #14ff92;
 }
 
 .small_user_image {
@@ -125,6 +199,13 @@ input {
     font-size: 10px;
     margin: 0px;
     text-align: right;
+}
+
+/*Friends*/
+
+.friend{
+    margin-right:2%;
+    text-align: center;
 }
 
 #message_board {

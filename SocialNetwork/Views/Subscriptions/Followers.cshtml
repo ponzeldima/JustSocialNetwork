@@ -10,7 +10,7 @@
     @{
         foreach (UserUser userUser in Model.Followers)
         {
-            @Html.Partial("User", userUser.Follower);
+            @Html.Partial("UserSimple", userUser.Follower);
         }
     }
 </div>

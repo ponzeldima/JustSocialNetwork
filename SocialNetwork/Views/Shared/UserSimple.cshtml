@@ -1,0 +1,10 @@
+﻿
+@model User
+
+<div class="col-2 friend p-2 ">
+    <img class="" src=@Model.AvaImage.Path alt="@Model.UserName" />
+    <p class="mb-0">@Model.FirstName  @Model.LastName </p>
+
+    <button id="write_to_friend" class="w-100" onclick="window.location.replace('/Users/Profile/' + '@Model.Id');">Details</button>
+</div>
+

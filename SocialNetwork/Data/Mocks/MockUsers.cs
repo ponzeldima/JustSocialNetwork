@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Data.Mocks
 {
-    public class MockUsers : IUsersGetter
+    public class MockUsers //: IUsersGetter
     {
         public IEnumerable<User> AllUsers => throw new NotImplementedException();
 

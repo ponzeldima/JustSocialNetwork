@@ -11,5 +11,10 @@ namespace SocialNetwork.ViewModels
         public User User { get; set; }
         public List<User> Friends { get; set; }
         public string UserId { get; set; }
+        public string SenderId { get; set; }
+        public Guid? DialogueId { get; set; }
+        public bool IsReader { get; set; }
+        public bool IsFollower { get; set; }
+        public bool IsFriend { get; set; }
     }
 }

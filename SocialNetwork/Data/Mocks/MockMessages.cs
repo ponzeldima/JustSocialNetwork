@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Data.Mocks
 {
-    public class MockMessages : IMessagesGetter
+    public class MockMessages// : IMessagesGetter
     {
-        private readonly IUsersGetter _users = new MockUsers();
-        private readonly IConversationsGetter _conversations = new MockConversations();
+        private readonly IUsersGetter _users = null;//new MockUsers();
+        private readonly IConversationsGetter _conversations = null; //new MockConversations();
 
         public IEnumerable<Message> AllMessges => new List<Message>
         {

@@ -10,7 +10,7 @@
     @{
         foreach (UserUser userUser in Model.Readers)
         {
-            @Html.Partial("User", userUser.Reader);
+            @Html.Partial("UserSimple", userUser.Reader);
         }
     }
 </div>

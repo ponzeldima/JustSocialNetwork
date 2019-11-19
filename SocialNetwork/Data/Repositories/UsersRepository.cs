@@ -45,5 +45,15 @@ namespace SocialNetwork.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public string GetUserNameByUserId(string userId)
+        {
+            return _appDBContent.Users.FirstOrDefault(u => u.Id == userId).UserName;
+        }
+
+        public bool UserFollowsUser(string user1Id, string user2Id)
+        {
+            return !(_appDBContent.UserUsers.FirstOrDefault(uu => uu.FollowerId == user1Id && uu.ReaderId == user2Id) is null);
+        }
     }
 }

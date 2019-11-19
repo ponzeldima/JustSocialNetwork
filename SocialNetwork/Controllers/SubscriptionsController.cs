@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Data.DB;
 using SocialNetwork.Data.Interfaces;
 using SocialNetwork.Data.Models;
+using SocialNetwork.ViewModels;
 
 namespace SocialNetwork.Controllers
 {
@@ -16,10 +17,13 @@ namespace SocialNetwork.Controllers
     {
         private readonly AppDBContent _db;
         private readonly IUsersGetter _usersGetter;
+        private readonly IConversationsGetter _conversationsGetter;
 
-        public SubscriptionsController(IUsersGetter usersGetter, AppDBContent db)
+        public SubscriptionsController(IUsersGetter usersGetter, 
+            IConversationsGetter conversationsGetter, AppDBContent db)
         {
             _usersGetter = usersGetter;
+            _conversationsGetter = conversationsGetter;
             _db = db;
         }
 
@@ -67,6 +71,7 @@ namespace SocialNetwork.Controllers
 
         public ViewResult Friends()
         {
+            var obj = new List<SubscriptionsFriendsViewModel>();
             User user = _db.Users
                 .Include(u => u.Readers)
                     .ThenInclude(uu => uu.Reader)
@@ -77,7 +82,26 @@ namespace SocialNetwork.Controllers
                 .Include(u => u.Images)
                 .FirstOrDefault(u => u.UserName == User.Identity.Name);
 
-            return View(user);
+            foreach (User friend in user.Friends)
+            {
+                var temp = new SubscriptionsFriendsViewModel()
+                {
+                    UserId = user.Id,
+                    FriendId = friend.Id,
+                    FriendAvaPath = friend.AvaImage.Path,
+                    FriendName = friend.UserName,
+                    FriendFirstName = friend.FirstName,
+                    FriendLastName = friend.LastName
+                };
+
+                if (_conversationsGetter.GetDialogueForUsers(user.Id, friend.Id) is null)
+                    temp.DialogueId = null;
+                else
+                    temp.DialogueId = _conversationsGetter.GetDialogueForUsers(user.Id, friend.Id).Id;
+
+                obj.Add(temp);
+            }
+            return View(obj);
         }
     }
 }

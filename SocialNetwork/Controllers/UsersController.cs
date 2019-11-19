@@ -15,10 +15,13 @@ namespace SocialNetwork.Controllers
     {
         private readonly AppDBContent _db;
         private readonly IUsersGetter _usersGetter;
+        private readonly IConversationsGetter _conversationsGetter;
 
-        public UsersController(IUsersGetter usersGetter, AppDBContent db)
+        public UsersController(IUsersGetter usersGetter,
+            IConversationsGetter conversationsGetter, AppDBContent db)
         {
             _usersGetter = usersGetter;
+            _conversationsGetter = conversationsGetter;
             _db = db;
         }
 
@@ -34,10 +37,18 @@ namespace SocialNetwork.Controllers
             obj.UserId = user.Id;
             obj.Friends = _usersGetter.AllUsers.ToList();
             obj.User = user;
+            obj.SenderId = _usersGetter.GetForUserName(User.Identity.Name).Id;
+            obj.IsFollower = _usersGetter.UserFollowsUser(id, obj.SenderId);
+            obj.IsReader = _usersGetter.UserFollowsUser(obj.SenderId, id);
+            obj.IsFriend = obj.IsReader && obj.IsFollower;
+            if (_conversationsGetter.GetDialogueForUsers(user.Id, obj.SenderId) is null)
+                obj.DialogueId = null;
+            else
+                obj.DialogueId = _conversationsGetter.GetDialogueForUsers(user.Id, obj.SenderId).Id;
+
             return View(obj);
         }
 
-        [Authorize(Roles = "admin")]
         public IActionResult AllUsers()
         {
             var users = _usersGetter.AllUsers;

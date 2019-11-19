@@ -53,6 +53,15 @@ namespace SocialNetwork.Data.DB
             angelina.Conversations.Add(new UserConversation { UserId = angelina.Id, ConversationId = violinists.Id });
             angelina.Conversations.Add(new UserConversation { UserId = angelina.Id, ConversationId = m_a.Id });
 
+            //dima.Followers.Add(new UserUser() { Follower = misha, Reader = dima });
+            //dima.Followers.Add(new UserUser() { Follower = slava, Reader = dima });
+            //dima.Followers.Add(new UserUser() { Follower = angelina, Reader = dima });
+            //misha.Followers.Add(new UserUser() { Follower = dima, Reader = misha });
+            //misha.Followers.Add(new UserUser() { Follower = angelina, Reader = misha });
+            //misha.Followers.Add(new UserUser() { Follower = slava, Reader = misha });
+            //slava.Followers.Add(new UserUser() { Follower = misha, Reader = slava });
+            //slava.Followers.Add(new UserUser() { Follower = dima, Reader = slava });
+
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[0].Id, IsRead = true });
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[1].Id, IsRead = true });
             dima.VisibleMessages.Add(new UserMessage { UserId = dima.Id, MessageId = Messages[2].Id, IsRead = true });

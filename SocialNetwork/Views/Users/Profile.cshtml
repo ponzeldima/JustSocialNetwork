@@ -5,11 +5,29 @@
 
 <div id="profile" class="row" >
     <div id="profile_left_part" class="col p-1  d-inline-block  " style="min-height:100px">
-        <div id="profile_photo_panel" class=" p-3 m-2 dark_panel" >
+        <div id="profile_photo_panel" class=" p-3 m-2 dark_panel">
             <img src="@Model.User.AvaImage.Path" alt="@Model.User.FirstName @Model.User.LastName"
-                 class="pb-1" style="max-width:100%; max_height:400%;" />
-            <button id="write_message" class=" bg-danger btn mt-1 w-100 text-white value="Написати повідомлення">Написати повідомлення</button>
-            <button id="add_to_friends" class="bg-danger btn mt-1 w-100 text-white" value="Додати в друзі">Додати в друзі</button>
+                 class="pb-1 mb-2" />
+            <button id="write_message" class="w-100" value="Написати повідомлення">Написати повідомлення</button>
+            @{
+
+                if (Model.IsFriend)
+                {
+                    <button class="w-100 disable" disabled="true" value="Додати в друзі">Ваш друг</button>
+                }
+                else if (Model.IsReader)
+                {
+                    <button class="w-100 disable" disabled="true" value="Додати в друзі">Заявку надіслано</button>
+                }
+                else if (Model.IsFollower)
+                {
+                    <button id="add_to_friends" class="w-100" value="Додати в друзі">Прийняти заявку</button>
+                }
+                else
+                {
+                    <button id="add_to_friends" class="w-100" value="Додати в друзі">Додати в друзі</button>
+                }
+            }
         </div>
         <div id="profile_friends" class="dark_panel p-1 m-2 row">
             <a href="#">
@@ -78,8 +96,7 @@
                     foreach (Image image in Model.User.Images)
                     {
                         <div class="col-3 px-1">
-                            <img src="@image.Path" alt="User Photo"
-                                 style="max-width:100%; max_height:100%;" />
+                            <img src="@image.Path" alt="User Photo"/>
                         </div>
                     }
                 }
@@ -103,8 +120,29 @@
     //alert("of");
 
     $("#add_to_friends").click(function () {
-        alert("of");
+        alert('@Model.IsReader');
+        alert('@Model.IsReader' == 'False');
+        if ('@Model.IsReader' == 'True') {
+            alert("exit");
+            return;
+        }
         subscribeOn("@Model.UserId");
-        $("#add_to_friends").disabled = true;
+        @{Model.IsReader = true;}
+        if ('@Model.IsReader' == 'True') {
+            alert("IsReader is true");
+        }
+        let text;
+        if ('@Model.IsFollower' == 'True')
+            text = "Ваш друг";
+        else
+            text = "Заявку надіслано";
+        $("#add_to_friends").html(text);
+        $("#add_to_friends").attr("class", "disable w-100");
+        $("#add_to_friends").attr("disabled", true);
+
+    });
+
+    $("#write_message").click(function () {
+        writeToFriend('@Model.DialogueId', '@Model.SenderId', '@Model.UserId');
     });
 </script>

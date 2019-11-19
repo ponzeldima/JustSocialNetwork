@@ -25,14 +25,21 @@ namespace SocialNetwork.Data.Repositories
                     .ThenInclude(m => m.Sender)
                         .ThenInclude(u => u.Images);
 
+        public Conversation GetDialogueForUsers(string user1Id, string user2Id)
+        {
+            return AllConversations.FirstOrDefault(c => (c.Members.Any(uc => uc.UserId == user1Id) &&
+                c.Members.Any(uc => uc.UserId == user2Id)) &&
+                c is Dialogue);
+        }
+
         public Conversation GetForId(Guid id)
         {
             return AllConversations.FirstOrDefault(c => c.Id == id);
         }
 
-        public Conversation GetForName(string name)
+        public Conversation GetForNickName(string nickName)
         {
-            throw new NotImplementedException();
+            return AllConversations.FirstOrDefault(c => c.NickName == nickName);
         }
 
         public IEnumerable<Conversation> GetFromUser(string name)
@@ -48,6 +55,8 @@ namespace SocialNetwork.Data.Repositories
 
             return conversations;
         }
+
+        
 
         public IEnumerable<Conversation> GetNotReadForUser(string userId)
         {

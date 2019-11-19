@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Data.Mocks
 {
-    public class MockConversations : IConversationsGetter
+    public class MockConversations //: IConversationsGetter
     {
-        private readonly IUsersGetter _users = new MockUsers();
+        private readonly IUsersGetter _users = null;//new MockUsers();
         //private readonly IMessagesGetter _messages = new MockMessages();
         public IEnumerable<Conversation> AllConversations => new List<Conversation>
         {

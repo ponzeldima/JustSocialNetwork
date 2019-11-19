@@ -1,8 +1,10 @@
 ﻿
-@model User
+@model SubscriptionsFriendsViewModel
 
-<div class="col-3 col-md-2">
-    <img class="img-thumbnail" src=@Model.AvaImage.Path alt="@Model.UserName" />
-    <p>@Model.FirstName  @Model.LastName </p>
-    <p><a class="btn btn-warning" href="/Users/Profile/@Model.Id">Details</a></p>
+<div class="col-2 friend p-2 ">
+    <img class="" src=@Model.FriendAvaPath alt="@Model.FriendName" />
+    <p class="mb-0">@Model.FriendFirstName  @Model.FriendLastName </p>
+    
+            <button id="write_to_friend" class="w-100" onclick="writeToFriend('@Model.DialogueId', '@Model.FriendId', '@Model.UserId')">Write</button> 
+    @Model.DialogueId;
 </div>

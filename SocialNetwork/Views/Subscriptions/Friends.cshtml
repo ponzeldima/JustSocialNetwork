@@ -1,17 +1,28 @@
-﻿@model User
+﻿@model List<SubscriptionsFriendsViewModel>
 
 @{
     ViewData["Title"] = "Friends";
 }
 
-<div class="dark_panel row">
-    <h1>Friends</h1>
-    <div class="w-100"></div>
-    @{
-        foreach (User friend in Model.Friends)
-        {
-            @Html.Partial("User", friend);
+<div class="dark_panel row p-1">
+    <div class="row m-3  w-100" style="border-bottom: 1px solid #414b5c;">
+            <div class="mr-4 pb-3 tab">
+                <h3 style="display:inline-block;">All friends</h3>
+                <span>@Model.Count()</span>
+            </div>
+            <div class="pb-3 tab">
+                <h3 style="display:inline-block;">Friends online</h3>
+                <span>0</span>
+            </div>
+    </div>
+    <div class="row m-3">
+        @{
+            foreach (SubscriptionsFriendsViewModel friend in Model)
+            {
+                @Html.Partial("User", friend);
+            }
         }
-    }
+    </div>
+    
 </div>
 

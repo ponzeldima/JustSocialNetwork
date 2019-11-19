@@ -13,5 +13,7 @@ namespace SocialNetwork.Data.Interfaces
         User GetForId(string id);
         User GetForUserName(string userName);
         User GetForPhone(string phone);
+        string GetUserNameByUserId(string userId);
+        bool UserFollowsUser(string user1Id, string user2Id);
     }
 }
